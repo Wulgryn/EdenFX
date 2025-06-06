@@ -1,0 +1,5 @@
+bin/**
+.vscode/**
+build/**
+CPPT.exe
+externals/libs/extracted/**

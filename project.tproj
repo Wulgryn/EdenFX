@@ -1,0 +1,107 @@
+<Project Name="Unnamed Project" Version="1.0" Author="Unknown">
+  <Description>This project has no description.</Description>
+  <Properties OutputName="program" RebuildSourceFileOnWarning="true" CopyAssets="notDebug" ClearOutputFolderBeforeBuild="notDebug">
+    <RebuildSourceFileOnWarning.Values DefaultValueIndex="0">
+      <Value>true</Value>
+      <Value>false</Value>
+    </RebuildSourceFileOnWarning.Values>
+    <CopyAssets.Values DefaultValueIndex="3">
+      <Value>onDebug</Value>
+      <Value>onRelease</Value>
+      <Value>onPublish</Value>
+      <Value>notDebug</Value>
+      <Value>notRelease</Value>
+      <Value>notPublish</Value>
+      <Value>never</Value>
+      <Value>always</Value>
+    </CopyAssets.Values>
+    <ClearOutputFolderBeforeBuild.Values DefaultValueIndex="3">
+      <Value>onDebug</Value>
+      <Value>onRelease</Value>
+      <Value>onPublish</Value>
+      <Value>notDebug</Value>
+      <Value>notRelease</Value>
+      <Value>notPublish</Value>
+      <Value>never</Value>
+      <Value>always</Value>
+    </ClearOutputFolderBeforeBuild.Values>
+    <Run args="" cwd="${workspaceFolder}" externalConsole="false">
+      <externalConsole.Values DefaultValueIndex="0">
+        <Value>false</Value>
+        <Value>true</Value>
+      </externalConsole.Values>
+      <!--args: Arguments to pass to the program
+
+			cwd: Working directory of the program
+			Possible values:
+			${workspaceFolder} - The folder opened in VS Code
+			${outputDir} - The folder where the output file is builded
+			<relative path> - The path will be realtive to the workspace folder
+			<absolute path> - The path will be absolute-->
+    </Run>
+    <Cpp_Config cppStandard="c++23" defines="">
+      <cppStandard.Values DefaultValueIndex="0">
+        <Value>c++23</Value>
+        <Value>c++20</Value>
+        <Value>c++17</Value>
+        <Value>c++11</Value>
+        <Value>c++03</Value>
+        <Value>c++98</Value>
+        <Value>gnu++23</Value>
+        <Value>gnu++20</Value>
+        <Value>gnu++17</Value>
+        <Value>gnu++11</Value>
+        <Value>gnu++03</Value>
+        <Value>gnu++98</Value>
+      </cppStandard.Values>
+      <!--'defines': separated by space-->
+    </Cpp_Config>
+    <BuildType>
+      <Values DefaultValueIndex="0">
+        <Value>Debug</Value>
+        <Value>Release</Value>
+        <Value>Publish</Value>
+      </Values>
+      <Value>Debug</Value>
+    </BuildType>
+    <Flags>
+      <DebugCompile>{debug_compile_flags}</DebugCompile>
+      <DebugLink>{debug_link_flags}</DebugLink>
+      <ReleaseCompile>{release_compile_flags}</ReleaseCompile>
+      <ReleaseLink>{release_link_flags}</ReleaseLink>
+      <PublishCompile>{release_compile_flags}</PublishCompile>
+      <PublishLink>{release_link_flags}</PublishLink>
+    </Flags>
+    <Arch>
+      <Values DefaultValueIndex="0">
+        <Value>x64</Value>
+        <Value>x86</Value>
+      </Values>
+      <Value>x64</Value>
+    </Arch>
+    <OutputType>
+      <Values DefaultValueIndex="0">
+        <Value>Application</Value>
+        <Value>DynamicLibrary</Value>
+        <Value>StaticLibrary</Value>
+      </Values>
+      <Value>Application</Value>
+    </OutputType>
+  </Properties>
+  <Datas>
+    <Data name="debug_compile_flags">-g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector {std} {arch} -c {is_shared} {source_file} -o {output_obj_file} {headers} {defines}</Data>
+    <Data name="debug_link_flags">{std} {is_shared} -o {output_file} "{build_dir}/*.obj" {lib_sources} {libs} {dlls}</Data>
+    <Data name="release_compile_flags">-c -Wall {std} {arch} {optimizing_flags} {is_shared} {source_file} -o {output_obj_file} {headers} {defines}</Data>
+    <Data name="release_link_flags">{std} {optimizing_link_flags} {is_shared} -o {output_file} "{build_dir}/*.obj" {is_static} {lib_sources} {libs} {dlls}</Data>
+    <Data name="optimizing_flags">-Ofast -funroll-loops -ffast-math -fprefetch-loop-arrays  -fipa-cp -fgcse -ffunction-sections -fdata-sections -Wl,--gc-sections -floop-interchange -fipa-sra -fhoist-adjacent-loads -falign-functions -fstack-protector-strong -ftree-loop-distribution -funswitch-loops -ftree-slp-vectorize -fmerge-all-constants -fipa-pure-const -fschedule-insns -fschedule-insns2 -frename-registers -fipa-pta -fomit-frame-pointer -ftree-pre -floop-parallelize-all -Wmissing-declarations</Data>
+    <Data name="optimizing_link_flags">-flto -fwhole-program</Data>
+  </Datas>
+  <Defines>
+    <!--<Define>DEBUG</Define>-->
+  </Defines>
+  <LinkedProjects StopBuildOnFail="true">
+    <!--<ProjectReference Path="" RelativePath="" SubBuild="false"/>
+		Only 'Path' or 'RelativePath' is required.
+		'SubBuild': If the referenced project should be built before this project builded.-->
+  </LinkedProjects>
+</Project>
