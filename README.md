@@ -7,6 +7,20 @@ This is a collector repo for my framework and game engine. <br>I am working on t
 
 ## Latest info
 
+Started collective initialize developement. To set up the whole structure I start it in one workspace. I will develope it like this until it's too bog for one workspace. The result will be in separated workspaces, and dll/static libs.
+
+The used workspace as branch: [EdenFX/collective-pre-developement](https://github.com/Wulgryn/EdenFX/tree/collective-pre-developement)
+
+<br/>
+<details>
+<summary>previous infos</summary>
+
+<details>
+<summary>2025.01.23</summary>
+
+``` 
+```
+
 #### Refactored the whole project structure
 From single file Pandora Engine to <br>-> PandoraIO<br>-> PandoraNET<br>-> PandoraUI<br>-> PandoraUX<br>-> PandoraEX<br>-> PandoraAI<br>-> PandoraEngine
 <br>More description from these in later releases.
@@ -17,6 +31,13 @@ From single file Pandora Engine to <br>-> PandoraIO<br>-> PandoraNET<br>-> Pando
 [obselated-v0.1.0](https://github.com/Wulgryn/Pandora-Engine/releases/tag/archive-branch%2Fobselated-v0.1.0)<br>
 [obselated-v0.0.1-alpha](https://github.com/Wulgryn/Pandora-Engine/releases/tag/archive-branch%2Fobselated-v0.0.1-alpha)<br>
 [environment-test-alpha](https://github.com/Wulgryn/Pandora-Engine/releases/tag/archive-branch%2Fenvironment-test-alpha)<br>
+
+``` 
+```
+
+</details>
+
+</details>
 
 ## Future plans:
 <p>- reworked rendering system
