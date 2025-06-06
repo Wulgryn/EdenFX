@@ -18,9 +18,6 @@ The used workspace as branch: [EdenFX/collective-pre-developement](https://githu
 <details>
 <summary>2025.01.23</summary>
 
-``` 
-```
-
 #### Refactored the whole project structure
 From single file Pandora Engine to <br>-> PandoraIO<br>-> PandoraNET<br>-> PandoraUI<br>-> PandoraUX<br>-> PandoraEX<br>-> PandoraAI<br>-> PandoraEngine
 <br>More description from these in later releases.
@@ -32,8 +29,6 @@ From single file Pandora Engine to <br>-> PandoraIO<br>-> PandoraNET<br>-> Pando
 [obselated-v0.0.1-alpha](https://github.com/Wulgryn/Pandora-Engine/releases/tag/archive-branch%2Fobselated-v0.0.1-alpha)<br>
 [environment-test-alpha](https://github.com/Wulgryn/Pandora-Engine/releases/tag/archive-branch%2Fenvironment-test-alpha)<br>
 
-``` 
-```
 
 </details>
 
