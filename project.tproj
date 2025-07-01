@@ -25,7 +25,7 @@
       <Value>never</Value>
       <Value>always</Value>
     </ClearOutputFolderBeforeBuild.Values>
-    <Run args="" cwd="${workspaceFolder}" externalConsole="false">
+    <Run args="" cwd="${workspaceFolder}" externalConsole="true">
       <externalConsole.Values DefaultValueIndex="0">
         <Value>false</Value>
         <Value>true</Value>
@@ -66,7 +66,7 @@
     </BuildType>
     <Flags>
       <DebugCompile>{debug_compile_flags}</DebugCompile>
-      <DebugLink>{debug_link_flags}</DebugLink>
+      <DebugLink>{debug_link_flags} -static</DebugLink>
       <ReleaseCompile>{release_compile_flags}</ReleaseCompile>
       <ReleaseLink>{release_link_flags}</ReleaseLink>
       <PublishCompile>{release_compile_flags}</PublishCompile>
@@ -97,6 +97,7 @@
     <Data name="optimizing_link_flags">-flto -fwhole-program</Data>
   </Datas>
   <Defines>
+    <Define>EDEN_DEBUG</Define>
     <!--<Define>DEBUG</Define>-->
   </Defines>
   <LinkedProjects StopBuildOnFail="true">

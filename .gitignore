@@ -3,3 +3,4 @@ bin/**
 build/**
 CPPT.exe
 externals/libs/extracted/**
+logs/**
