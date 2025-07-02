@@ -72,7 +72,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void log(const std::string &msg, Args... args)
         {
-            mf_log(Utils::format(" " + msg, std::forward<Args>(args)...));
+            mf_log(Utils::format(msg, std::forward<Args>(args)...));
         }
 
         /// @brief Logs an error message to the console and optionally to a file.
@@ -81,7 +81,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logError(const std::string &message, Args... args)
         {
-            mf_logError(Utils::format(" [ERROR] " + message, std::forward<Args>(args)...));
+            mf_logError(Utils::format("[ERROR]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs an informational message to the console and optionally to a file.
@@ -90,7 +90,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logInfo(const std::string &message, Args... args)
         {
-            mf_logInfo(Utils::format(" [INFO] " + message, std::forward<Args>(args)...));
+            mf_logInfo(Utils::format("[INFO]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a warning message to the console and optionally to a file.
@@ -99,7 +99,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logWarning(const std::string &message, Args... args)
         {
-            mf_logWarning(Utils::format(" [WARNING] " + message, std::forward<Args>(args)...));
+            mf_logWarning(Utils::format("[WARNING]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a debug message to the console and optionally to a file.
@@ -108,7 +108,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logDebug(const std::string &message, Args... args)
         {
-            mf_logDebug(Utils::format(" [DEBUG] " + message, std::forward<Args>(args)...));
+            mf_logDebug(Utils::format("[DEBUG]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a trace message to the console and optionally to a file.
@@ -117,7 +117,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logTrace(const std::string &message, Args... args)
         {
-            mf_logTrace(Utils::format(" [TRACE] " + message, std::forward<Args>(args)...));
+            mf_logTrace(Utils::format("[TRACE]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a fatal error message to the console and optionally to a file.
@@ -126,7 +126,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logFatal(const std::string &message, Args... args)
         {
-            mf_logFatal(Utils::format(" [FATAL] " + message, std::forward<Args>(args)...));
+            mf_logFatal(Utils::format("[FATAL]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a success message to the console and optionally to a file.
@@ -135,7 +135,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logSuccess(const std::string &message, Args... args)
         {
-            mf_logSuccess(Utils::format(" [SUCCESS] " + message, std::forward<Args>(args)...));
+            mf_logSuccess(Utils::format("[SUCCESS]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a failure message to the console and optionally to a file.
@@ -144,7 +144,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logFailure(const std::string &message, Args... args)
         {
-            mf_logFailure(Utils::format(" [FAILURE] " + message, std::forward<Args>(args)...));
+            mf_logFailure(Utils::format("[FAILURE]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs a critical message to the console and optionally to a file.
@@ -153,7 +153,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logCritical(const std::string &message, Args... args)
         {
-            mf_logCritical(Utils::format(" [CRITICAL] " + message, std::forward<Args>(args)...));
+            mf_logCritical(Utils::format("[CRITICAL]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Logs an exception message to the console and optionally to a file.
@@ -162,7 +162,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logException(const std::string &message, Args... args)
         {
-            mf_logException(Utils::format(" [EXCEPTION] " + message, std::forward<Args>(args)...));
+            mf_logException(Utils::format("[EXCEPTION]" + message, std::forward<Args>(args)...));
         }
 
         /// @brief Checks if the debug console is currently attached to a console.

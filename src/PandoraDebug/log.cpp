@@ -140,10 +140,10 @@ void DebugLog::log(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -157,10 +157,10 @@ void DebugLog::logError(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [ERROR] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[ERROR]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [ERROR] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[ERROR]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -174,10 +174,10 @@ void DebugLog::logInfo(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [INFO] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[INFO]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [INFO] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[INFO]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -191,10 +191,10 @@ void DebugLog::logWarning(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [WARNING] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[WARNING]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [WARNING] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[WARNING]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -208,10 +208,10 @@ void DebugLog::logDebug(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [DEBUG] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[DEBUG]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [DEBUG] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[DEBUG]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -225,10 +225,10 @@ void DebugLog::logTrace(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [TRACE] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[TRACE]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [TRACE] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[TRACE]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -242,10 +242,10 @@ void DebugLog::logFatal(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [FATAL] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[FATAL]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [FATAL] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[FATAL]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -259,10 +259,10 @@ void DebugLog::logSuccess(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [SUCCESS] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[SUCCESS]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [SUCCESS] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[SUCCESS]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -276,10 +276,10 @@ void DebugLog::logFailure(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [FAILURE] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[FAILURE]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [FAILURE] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[FAILURE]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -293,10 +293,10 @@ void DebugLog::logCritical(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [CRITICAL] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[CRITICAL]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [CRITICAL] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[CRITICAL]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
@@ -310,10 +310,10 @@ void DebugLog::logException(const string &message, ...)
 
     va_list args_copy;
     va_copy(args_copy, args);
-    int len = vsnprintf(nullptr, 0, (getTime() + " [EXCEPTION] " + message + "\n").c_str(), args_copy);
+    int len = vsnprintf(nullptr, 0, (getTime() + "[EXCEPTION]" + message + "\n").c_str(), args_copy);
     va_end(args_copy);
     char *formattedMessage = new char[len + 1];
-    sprintf(formattedMessage, (getTime() + " [EXCEPTION] " + message + "\n").c_str(), args);
+    sprintf(formattedMessage, (getTime() + "[EXCEPTION]" + message + "\n").c_str(), args);
 
     __self.__print(formattedMessage);
 
