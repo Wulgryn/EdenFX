@@ -4,3 +4,4 @@ build/**
 CPPT.exe
 externals/libs/extracted/**
 logs/**
+cmake-build/**

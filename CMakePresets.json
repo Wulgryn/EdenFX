@@ -1,0 +1,25 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "edenfx_tests",
+            "displayName": "GCC 15.1.0 x86_64-w64-mingw32 (ucrt64)",
+            "description": "Using compilers: C = G:\\msys64\\ucrt64\\bin\\gcc.exe, CXX = G:\\msys64\\ucrt64\\bin\\g++.exe",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/cmake-build",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "G:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "G:/msys64/ucrt64/bin/g++.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "test_build",
+            "description": "",
+            "displayName": ""
+        }
+    ]
+}
