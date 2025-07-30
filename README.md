@@ -1,7 +1,7 @@
 <h1> EdenFX </h1>
 
 <!-- [![Total Code Time](https://wulgryn.net/edenfx-total-code-time-badge)](https://wulgryn.net/edenfx-total-code-time-badge) -->
-[![Total Code Time](https://img.shields.io/badge/Total%20Dev%20Time-346%20hrs%2048%20mins-green)](https://img.shields.io/badge/Total%20Dev%20Time-346%20hrs%2048%20mins-green)
+[![Total Code Time](https://img.shields.io/badge/Total%20Dev%20Time-360%20hrs%2004%20mins-green)](https://img.shields.io/badge/Total%20Dev%20Time-360%20hrs%2004%20mins-green)
 
 ### About
 This is a collector repo for my framework and game engine. <br>I am working on this as a hobby. Feel free to fix any bug or error if you would like to.
