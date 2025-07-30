@@ -1,5 +1,5 @@
-#ifndef STRING_HPP
-#define STRING_HPP
+#ifndef PANDORAEX_STRING_HPP
+#define PANDORAEX_STRING_HPP
 
 #include <string>
 
@@ -12,6 +12,7 @@ namespace PandoraEX
  **                                                  REGION CONSTRUCTORS
  *========================================================================================================================*/
 #pragma region CONSTRUCTORS
+        using std::string::string;
 
         String();
         String(const char *str);
@@ -46,7 +47,7 @@ namespace PandoraEX
         /// @param width The width of the number.
         /// @return The padded number.
         /// @note value = 7, width = 2 -> "07"
-        String pad(int value, int width = 2);
+        static String pad(int value, int width = 2);
 
         /// @brief Pads a string with zeros to the left.
         /// @param val The string to pad.
@@ -54,10 +55,14 @@ namespace PandoraEX
         /// @return The padded string.
         /// @note `value = "7", width = 2 -> "07"`
         /// @note Value must be a "number".
-        String pad(String val, int width = 2);
+        static String pad(String val, int width = 2);
 
-        String format(const String &format, ...);
+        /// @brief Formats a string with the given format and arguments.
+        /// @param format The format string.
+        /// @param ... The arguments to format.
+        /// @return The formatted string.
+        static String format(const String &format, ...);
     };
 }
 
-#endif // STRING_HPP
+#endif // PANDORAEX_STRING_HPP

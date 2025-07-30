@@ -1,0 +1,495 @@
+PS F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX> .\CPPT.exe build
+[build] Initializing...
+[build] Initialization complete.
+Building...
+[COMPILE -> size2.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/size2.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraEX$__$size2.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> constructors.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/string/constructors.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/string$__$constructors.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> main.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/main.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/src$__$main.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/main.cpp: In function 'int main(int, const char**)':
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/main.cpp:12:14: warning: unused parameter 'argc' [-Wunused-parameter]
+   12 | int main(int argc, char const *argv[])
+      |          ~~~~^~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/main.cpp:12:32: warning: unused parameter 'argv' [-Wunused-parameter]
+   12 | int main(int argc, char const *argv[])
+      |                    ~~~~~~~~~~~~^~~~~~
+[COMPILE -> color.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/color.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraEX$__$color.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> op_mult.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/size2/op_mult.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/size2$__$op_mult.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> op+.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/size2/op+.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/size2$__$op+.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> op_div.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/size2/op_div.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/size2$__$op_div.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> op-.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/size2/op-.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/size2$__$op-.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> base2D.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/base2D.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$base2D.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> utils.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/utils.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraEX$__$utils.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> vectorGeometryMath.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/vectorGeometryMath.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$vectorGeometryMath.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> planeGeometryMath.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/planeGeometryMath.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$planeGeometryMath.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> dateTime.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dateTime.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraEX$__$dateTime.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> transform.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/transform.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$transform.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> utils.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/string/utils.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/string$__$utils.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> utils.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/utils.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$utils.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> operators.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/string/operators.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/string$__$operators.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> utils.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraDebug/utils.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraDebug$__$utils.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> base_ops.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/size2/base_ops.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/size2$__$base_ops.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> math.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/dataTypes/base2D/math.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/base2D$__$math.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> windowManager.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraUI$__$windowManager.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+In file included from F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:2:
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window.hpp: In instantiation of 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]':
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window.hpp:48:9: warning: implicitly-declared 'constexpr PandoraEX::Size2::Size2(const PandoraEX::Size2&)' is deprecated [-Wdeprecated-copy]
+   48 |         Window(const Window&) = default;
+      |         ^~~~~~
+In file included from F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window.hpp:5:
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/size2.hpp:44:16: note: because 'PandoraEX::Size2' has user-provided 'PandoraEX::Size2& PandoraEX::Size2::operator=(const PandoraEX::Size2&)'
+   44 |         Size2 &operator=(const Size2 &b2);
+      |                ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_iterator.h:78,
+                 from C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_algobase.h:67,
+                 from C:/msys64/ucrt64/include/c++/15.1.0/vector:64,
+                 from F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:4,
+                 from F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.hpp:4,
+                 from F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:1:
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Args = {const PandoraEX::ValueWrapper<PandoraUI::UIElement>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*; _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: error: no matching function for call to 'construct_at(PandoraEX::ValueWrapper<PandoraUI::UIElement>*&, const PandoraEX::ValueWrapper<PandoraUI::UIElement>&)'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: note: there is 1 candidate
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: candidate 1: 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+   96 |     construct_at(_Tp* __location, _Args&&... __args)
+      |     ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: template argument deduction/substitution failed:
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: constraints not satisfied
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In substitution of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Args = {const PandoraEX::ValueWrapper<PandoraUI::UIElement>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:21:   required from 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Args = {const PandoraEX::ValueWrapper<PandoraUI::UIElement>&}]'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*; _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5:   required by the constraints of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:10:   in requirements  [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Args = {const PandoraEX::ValueWrapper<PandoraUI::UIElement>&}]
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:21: note: the required expression '::new(void*(0)) _Tp' is invalid
+   94 |       && requires { ::new((void*)0) _Tp(std::declval<_Args>()...); }
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Args = {const PandoraEX::ValueWrapper<PandoraUI::UIElement>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraUI::UIElement>*, vector<PandoraEX::ValueWrapper<PandoraUI::UIElement>, allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraUI::UIElement>*; _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraUI::UIElement>; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraUI::UIElement> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+cc1plus.exe: note: set '-fconcepts-diagnostics-depth=' to at least 2 for more detail
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: error: use of deleted function 'PandoraEX::ValueWrapper<PandoraUI::UIElement>::ValueWrapper(const PandoraEX::ValueWrapper<PandoraUI::UIElement>&)'
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:8:
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: 'PandoraEX::ValueWrapper<PandoraUI::UIElement>::ValueWrapper(const PandoraEX::ValueWrapper<PandoraUI::UIElement>&)' is implicitly declared as deleted because 'PandoraEX::ValueWrapper<PandoraUI::UIElement>' declares a move constructor or move assignment operator
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: note: there are 4 candidates
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: candidate 1: 'PandoraEX::ValueWrapper<PandoraUI::UIElement>::ValueWrapper(const PandoraEX::ValueWrapper<PandoraUI::UIElement>&)' (deleted)
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: candidate 2: 'constexpr PandoraEX::ValueWrapper<T>::ValueWrapper(PandoraEX::ValueWrapper<T>&&) [with T = PandoraUI::UIElement]' (near match)
+   52 |         ValueWrapper(ValueWrapper &&) noexcept = default;
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: conversion of argument 1 would be ill-formed:
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: error: cannot bind rvalue reference of type 'PandoraEX::ValueWrapper<PandoraUI::UIElement>&&' to lvalue of type 'const PandoraEX::ValueWrapper<PandoraUI::UIElement>'
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:26:9: note: candidate 3: 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::UIElement]'
+   26 |         ValueWrapper(const T &value)
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:26:31: note: no known conversion for argument 1 from 'const PandoraEX::ValueWrapper<PandoraUI::UIElement>' to 'const PandoraUI::UIElement&'
+   26 |         ValueWrapper(const T &value)
+      |                      ~~~~~~~~~^~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate 4: 'PandoraEX::ValueWrapper<T>::ValueWrapper() [with T = PandoraUI::UIElement]'
+   22 |         ValueWrapper() : value(nullptr) {};
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate expects 0 arguments, 1 provided
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<int>; _Args = {const PandoraEX::ValueWrapper<int>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*; _Tp = PandoraEX::ValueWrapper<int>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<int>; _Alloc = std::allocator<PandoraEX::ValueWrapper<int> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: error: no matching function for call to 'construct_at(PandoraEX::ValueWrapper<int>*&, const PandoraEX::ValueWrapper<int>&)'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: note: there is 1 candidate
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: candidate 1: 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+   96 |     construct_at(_Tp* __location, _Args&&... __args)
+      |     ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: template argument deduction/substitution failed:
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: constraints not satisfied
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In substitution of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<int>; _Args = {const PandoraEX::ValueWrapper<int>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:21:   required from 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<int>; _Args = {const PandoraEX::ValueWrapper<int>&}]'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*; _Tp = PandoraEX::ValueWrapper<int>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<int>; _Alloc = std::allocator<PandoraEX::ValueWrapper<int> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5:   required by the constraints of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:10:   in requirements  [with _Tp = PandoraEX::ValueWrapper<int>; _Args = {const PandoraEX::ValueWrapper<int>&}]
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:21: note: the required expression '::new(void*(0)) _Tp' is invalid
+   94 |       && requires { ::new((void*)0) _Tp(std::declval<_Args>()...); }
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<int>; _Args = {const PandoraEX::ValueWrapper<int>&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<int>*, vector<PandoraEX::ValueWrapper<int>, allocator<PandoraEX::ValueWrapper<int> > > >; _ForwardIterator = PandoraEX::ValueWrapper<int>*; _Tp = PandoraEX::ValueWrapper<int>]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<int>; _Alloc = std::allocator<PandoraEX::ValueWrapper<int> >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: error: use of deleted function 'PandoraEX::ValueWrapper<int>::ValueWrapper(const PandoraEX::ValueWrapper<int>&)'
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: 'PandoraEX::ValueWrapper<int>::ValueWrapper(const PandoraEX::ValueWrapper<int>&)' is implicitly declared as deleted because 'PandoraEX::ValueWrapper<int>' declares a move constructor or move assignment operator
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: note: there are 4 candidates
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: candidate 1: 'PandoraEX::ValueWrapper<int>::ValueWrapper(const PandoraEX::ValueWrapper<int>&)' (deleted)
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: candidate 2: 'constexpr PandoraEX::ValueWrapper<T>::ValueWrapper(PandoraEX::ValueWrapper<T>&&) [with T = int]' (near match)
+   52 |         ValueWrapper(ValueWrapper &&) noexcept = default;
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: conversion of argument 1 would be ill-formed:
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: error: cannot bind rvalue reference of type 'PandoraEX::ValueWrapper<int>&&' to lvalue of type 'const PandoraEX::ValueWrapper<int>'
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:26:9: note: candidate 3: 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = int]'
+   26 |         ValueWrapper(const T &value)
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:26:31: note: no known conversion for argument 1 from 'const PandoraEX::ValueWrapper<int>' to 'const int&'
+   26 |         ValueWrapper(const T &value)
+      |                      ~~~~~~~~~^~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate 4: 'PandoraEX::ValueWrapper<T>::ValueWrapper() [with T = int]'
+   22 |         ValueWrapper() : value(nullptr) {};
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate expects 0 arguments, 1 provided
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Args = {const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*; _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: error: no matching function for call to 'construct_at(PandoraEX::ValueWrapper<PandoraEX::Method<void> >*&, const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&)'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:28: note: there is 1 candidate
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: candidate 1: 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+   96 |     construct_at(_Tp* __location, _Args&&... __args)
+      |     ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: template argument deduction/substitution failed:
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5: note: constraints not satisfied
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In substitution of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Args = {const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:129:21:   required from 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Args = {const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&}]'
+  129 |           std::construct_at(__p, std::forward<_Args>(__args)...);
+      |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*; _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:96:5:   required by the constraints of 'template<class _Tp, class ... _Args>  requires !(is_unbounded_array_v<_Tp>) && requires{::new(void*(0)) _Tp;} constexpr _Tp* std::construct_at(_Tp*, _Args&& ...)'
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:10:   in requirements  [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Args = {const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&}]
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:94:21: note: the required expression '::new(void*(0)) _Tp' is invalid
+   94 |       && requires { ::new((void*)0) _Tp(std::declval<_Args>()...); }
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h: In instantiation of 'constexpr void std::_Construct(_Tp*, _Args&& ...) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Args = {const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&}]':
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:145:17:   required from 'constexpr _ForwardIterator std::__do_uninit_copy(_InputIterator, _Sentinel, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*]'
+  145 |         std::_Construct(std::__addressof(*__result), *__first);
+      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h:618:30:   required from 'constexpr _ForwardIterator std::__uninitialized_copy_a(_InputIterator, _Sentinel, _ForwardIterator, allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _Sentinel = __gnu_cxx::__normal_iterator<const PandoraEX::ValueWrapper<PandoraEX::Method<void> >*, vector<PandoraEX::ValueWrapper<PandoraEX::Method<void> >, allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > > > >; _ForwardIterator = PandoraEX::ValueWrapper<PandoraEX::Method<void> >*; _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >]'
+  618 |         return std::__do_uninit_copy(std::move(__first), __last, __result);
+      |                ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h:636:31:   required from 'constexpr std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = PandoraEX::ValueWrapper<PandoraEX::Method<void> >; _Alloc = std::allocator<PandoraEX::ValueWrapper<PandoraEX::Method<void> > >]'
+  636 |           std::__uninitialized_copy_a(__x.begin(), __x.end(),
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+  637 |                                       this->_M_impl._M_start,
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+  638 |                                       _M_get_Tp_allocator());
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:14:11:   required from 'constexpr std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = PandoraUI::Window; _Args = {const PandoraUI::Window&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<PandoraUI::Window>]'
+   14 |     class List
+      |           ^~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:36:67:   required from 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraUI::Window]'
+   36 |                 ptr = std::make_unique<std::remove_reference_t<T>>(value);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:58:33:   required from 'size_t PandoraEX::List<Type>::indexOf(const Type&) const [with Type = PandoraUI::Window; size_t = long long unsigned int]'
+   58 |                 if (data_vec[i] == item)
+      |                     ~~~~~~~~~~~~^~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/list.hpp:69:28:   required from 'void PandoraEX::List<Type>::remove(const Type&) [with Type = PandoraUI::Window]'
+   69 |             size_t index = indexOf(item);
+      |                            ^~~~~~~
+F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/windowManager.cpp:20:19:   required from here
+   20 |     windows.remove(window);
+      |     ~~~~~~~~~~~~~~^~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: error: use of deleted function 'PandoraEX::ValueWrapper<PandoraEX::Method<void> >::ValueWrapper(const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&)'
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: 'PandoraEX::ValueWrapper<PandoraEX::Method<void> >::ValueWrapper(const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&)' is implicitly declared as deleted because 'PandoraEX::ValueWrapper<PandoraEX::Method<void> >' declares a move constructor or move assignment operator
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+C:/msys64/ucrt64/include/c++/15.1.0/bits/stl_construct.h:133:7: note: there are 4 candidates
+  133 |       ::new(static_cast<void*>(__p)) _Tp(std::forward<_Args>(__args)...);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:11:11: note: candidate 1: 'PandoraEX::ValueWrapper<PandoraEX::Method<void> >::ValueWrapper(const PandoraEX::ValueWrapper<PandoraEX::Method<void> >&)' (deleted)
+   11 |     class ValueWrapper
+      |           ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:26:9: note: candidate 2: 'PandoraEX::ValueWrapper<T>::ValueWrapper(const T&) [with T = PandoraEX::Method<void>]'
+   26 |         ValueWrapper(const T &value)
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: candidate 3: 'constexpr PandoraEX::ValueWrapper<T>::ValueWrapper(PandoraEX::ValueWrapper<T>&&) [with T = PandoraEX::Method<void>]' (near match)
+   52 |         ValueWrapper(ValueWrapper &&) noexcept = default;
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: note: conversion of argument 1 would be ill-formed:
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:52:9: error: cannot bind rvalue reference of type 'PandoraEX::ValueWrapper<PandoraEX::Method<void> >&&' to lvalue of type 'const PandoraEX::ValueWrapper<PandoraEX::Method<void> >'
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate 4: 'PandoraEX::ValueWrapper<T>::ValueWrapper() [with T = PandoraEX::Method<void>]'
+   22 |         ValueWrapper() : value(nullptr) {};
+      |         ^~~~~~~~~~~~
+F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src/PandoraEX/valueWrapper.hpp:22:9: note: candidate expects 0 arguments, 1 provided
+[COMPILE -> exception.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraEX/exception.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraEX$__$exception.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> dateTime.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraDebug/dateTime.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraDebug$__$dateTime.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> gui.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window/gui.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/window$__$gui.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> log.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraDebug/log.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraDebug$__$log.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> init.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/init.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraUI$__$init.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> window.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window/window.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/window$__$window.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> initialize.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window/initialize.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/window$__$initialize.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> constructors.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/window/constructors.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/window$__$constructors.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> consoleColor.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraDebug/consoleColor.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraDebug$__$consoleColor.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> glad.c]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraUI/externals/glad.c" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/externals$__$glad.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+[COMPILE -> console.cpp]
+ C:/msys64/ucrt64/bin/g++.exe -g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector -std=c++23 -m64 -c  "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/src/PandoraDebug/console.cpp" -o "F:/OneDrive/Codes/Eden Projects/EdenFX/EdenFX/build/PandoraDebug$__$console.obj" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/externals/headers" -I"F:\OneDrive\Codes\Eden Projects\EdenFX\EdenFX/src" -DEDEN_DEBUG -fdiagnostics-all-candidates
+Compilation failed!

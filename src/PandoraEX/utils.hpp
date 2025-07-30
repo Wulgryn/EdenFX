@@ -1,5 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef PANDORAEX_UTILS_HPP
+#define PANDORAEX_UTILS_HPP
 
 #include "string.hpp"
 
@@ -27,4 +27,4 @@ namespace PandoraEX::Utils
     String demangle(const String name);
 }
 
-#endif // UTILS_HPP
+#endif // PANDORAEX_UTILS_HPP

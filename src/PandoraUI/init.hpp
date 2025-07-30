@@ -59,10 +59,23 @@ namespace PandoraUI
     /// @note This function should be called before using any other functions in the PandoraUI library.
     InitStatus initialize();
 
+    /// @brief The exit code of the PandoraUI library.
+    extern int exitCode;
+
+    /// @brief Collection of built-in exit codes for the PandoraUI library.
+    enum class ExitCode
+    {
+        Success = 0,
+        Failure = 1,
+        NotInitialized = 2
+    };
+
     /// @brief Starts the PandoraUI event loop.
+    /// @param pauseOnExit If true, the application will pause on exit, allowing the user to see the final output. (default: true)
     /// @return The exit code of the event loop.
     /// @note This function blocks until the event loop is exited, typically when the user closes the application.
-    int waitForExit();
+    [[nodiscard]] int waitForExit(bool pauseOnExit = true);
+
 }
 
-#endif // PANDORAUI_INIT_HPPs
+#endif // PANDORAUI_INIT_HPP

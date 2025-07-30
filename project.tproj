@@ -65,7 +65,7 @@
       <Value>Debug</Value>
     </BuildType>
     <Flags>
-      <DebugCompile>{debug_compile_flags}</DebugCompile>
+      <DebugCompile>{debug_compile_flags} -fdiagnostics-all-candidates</DebugCompile>
       <DebugLink>{debug_link_flags} -static</DebugLink>
       <ReleaseCompile>{release_compile_flags}</ReleaseCompile>
       <ReleaseLink>{release_link_flags}</ReleaseLink>

@@ -1,18 +1,25 @@
 #include "init.hpp"
+#include "windowManager.hpp"
+#include "window.hpp"
 #include "../PandoraDebug/console.hpp"
 
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "glad/gl.h"
 
+#include <conio.h>
+
 using namespace PandoraUI;
-using namespace PandoraDebug;
+// using namespace PandoraDebug;
 using namespace PandoraEX;
 using namespace std;
 
-bool InitStatus::initialized = false;
+typedef PandoraDebug::DC DC;
 
-InitStatus::InitStatus(InitStatusCode statusCode, String msg)
+bool InitStatus::initialized = false;
+int PandoraUI::exitCode = 0;
+
+InitStatus::InitStatus(InitStatusCode statusCode, PandoraEX::String msg)
     : code(statusCode), message(std::move(msg))
 {
     if (statusCode == InitStatusCode::Success)
@@ -39,14 +46,14 @@ InitStatusCode InitStatus::getCode() const
     return code;
 }
 
-const String &InitStatus::getMessage() const
+const PandoraEX::String &InitStatus::getMessage() const
 {
     return message;
 }
 
 void __glfw_error_callback(int error, const char *description)
 {
-    DC::logError("[GLFW Error/" + to_string(error) + "] " + String(description));
+    DC::logError("[GLFW Error/" + to_string(error) + "] " + PandoraEX::String(description));
 }
 
 InitStatus PandoraUI::initialize()
@@ -85,8 +92,38 @@ InitStatus PandoraUI::initialize()
 
     DC::logInfo(" GLFW window hints set.");
     DC::logInfo(" GLFW initialization complete.");
-    DC::logInfo(" GLFW version: " + String(glfwGetVersionString()));
+    DC::logInfo(" GLFW version: " + PandoraEX::String(glfwGetVersionString()));
     DC::logSuccess(" PandoraUI initialized successfully!");
 
     return InitStatus(InitStatusCode::Success, "PandoraUI initialized successfully.");
+}
+
+int PandoraUI::waitForExit(bool pauseOnExit)
+{
+    DC::logInfo(" Starting PandoraUI event loop...");
+
+    WindowManager::startFrameTimeUpdateThread();
+    while (WindowManager::getWindowCount() > 0)
+    {
+        for (int i = 0; i < WindowManager::getWindowCount(); i++)
+        {
+            WindowManager::getWindow(i).update();
+        }
+        glfwPollEvents();
+    }
+    glfwTerminate();
+
+    DC::logInfo(" Exiting PandoraUI event loop.");
+    if(!DC::isAttached()) DC::attach();
+    if (pauseOnExit)
+    {
+        DC::logInfo(" Exiting with code: " + to_string(exitCode));
+        if (exitCode == 0)
+            DC::logSuccess(" Exiting successfully.");
+        else
+            DC::logError(" Exiting with an error code: " + to_string(exitCode));
+        DC::logInfo(" Press any key to continue...");
+        _getch();
+    }
+    return exitCode;
 }

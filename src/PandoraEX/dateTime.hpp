@@ -1,5 +1,5 @@
-#ifndef DATE_TIME_HPP
-#define DATE_TIME_HPP
+#ifndef PANDORAEX_DATE_TIME_HPP
+#define PANDORAEX_DATE_TIME_HPP
 
 namespace PandoraEX
 {
@@ -59,4 +59,4 @@ namespace PandoraEX
     };
 };
 
-#endif // DATE_TIME_HPP
+#endif // PANDORAEX_DATE_TIME_HPP

@@ -1638,16 +1638,16 @@ DWORD WINAPI LoadLibraryThread(LPVOID lpParam)
 
 void DebugConsole::mf_detach(bool asNewConsole)
 {
-    logDebug(Utils::format("Debug console detach requested. asNewConsole: %s", asNewConsole ? "true" : "false"));
+    logDebug(Utils::format(" Debug console detach requested. asNewConsole: %s", asNewConsole ? "true" : "false"));
     if (!asNewConsole)
     {
         sm_isAttached = false;
-        logInfo("Debug console detached successfully.");
+        logInfo(" Debug console detached successfully.");
         return;
     }
     if (!sm_isAttached && sm_isVirtualConsole)
     {
-        logInfo("Debug console is already detached.");
+        logInfo(" Debug console is already detached.");
         return;
     }
     string dllPath = std::filesystem::current_path().string() + "/tmp/" + sm_dllName;
