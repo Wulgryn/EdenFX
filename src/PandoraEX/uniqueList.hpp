@@ -1,6 +1,7 @@
 #ifndef PANDORAEX_UNIQUE_LIST_HPP
 #define PANDORAEX_UNIQUE_LIST_HPP
 
+#include "PandoraEX/object.hpp"
 #include "list.hpp"
 
 namespace PandoraEX
@@ -9,9 +10,8 @@ namespace PandoraEX
     /// @tparam Type The type of the items in the list.
     /// @details This class inherits from List and overrides the add method to ensure that only unique items are added to the list.
     /// @note If the item is already present in the list, it will not be added again. 
-    /// @see file:src/PandoraEX/list.hpp "list.hpp"
     template <class Type>
-    class UniqueList : public List<Type>
+    Class(UniqueList) pextends List<Type>
     {
     public:
         /// @brief Add an item to the unique list.

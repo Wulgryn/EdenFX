@@ -1,13 +1,14 @@
 #ifndef BASE2D_PRIMITIVES_POINT2D
 #define BASE2D_PRIMITIVES_POINT2D
 
+#include "PandoraEX/object.hpp"
 #include "../base2D.hpp"
 #include "../utils.hpp"
 
 namespace PandoraEX::Base2D
 {
     template <class Type>
-    struct Point2D : Base2D<Type>, Utils
+    Struct(Point2D) extends Base2D<Type>, Utils
     {
         double x = 0, y = 0;
         Point2D() : Base2D<Type>(x, y), Utils(x, y) {}

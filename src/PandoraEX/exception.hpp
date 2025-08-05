@@ -2,12 +2,13 @@
 #define PANDORAEX_EXCEPTION_HPP
 
 #include <exception>
+#include "PandoraEX/object.hpp"
 #include "string.hpp"
 #include "utils.hpp"
 namespace PandoraEX::Exceptions
 {
     extern bool logExceptions;
-    class Exception : public std::exception
+    Class(Exception) extends std::exception
     {
     protected:
         String _message;
@@ -66,7 +67,7 @@ namespace PandoraEX::Exceptions
 /// @param ... The arguments to format the message with.
 #define ThrowExceptionF(exceptionClass, format, ...) {PandoraEX::Exceptions::Exception ex = ExceptionF_(exceptionClass, format, ##__VA_ARGS__); ex.log(true); throw ex;}
 
-    class InvalidArgumentException : public Exception
+    Class(InvalidArgumentException) extends Exception
     {
     public:
         InvalidArgumentException(String message = "An invalid argument was passed.") noexcept : Exception(message) {}
@@ -74,7 +75,7 @@ namespace PandoraEX::Exceptions
         InvalidArgumentException(String message, String file, String line, String func) noexcept : Exception(message, file, line, func) {}
     };
 
-    class SignatureException : public Exception
+    Class(SignatureException) extends Exception
     {
     public:
         SignatureException(String message = "Function signature mismatch.") noexcept : Exception(message) {}
@@ -91,7 +92,7 @@ namespace PandoraEX::Exceptions
         }
     };
 
-    class ArgumentCountException : public Exception
+    Class(ArgumentCountException) extends Exception
     {
     public:
         ArgumentCountException(String message = "Argument count mismatch.") noexcept : Exception(message) {}
@@ -101,7 +102,7 @@ namespace PandoraEX::Exceptions
         ArgumentCountException(int exceptedCount, int givenCount, String file, String line, String func) noexcept : Exception("Argument count mismatch. Expected " + String(exceptedCount + "") + " arguments, but got " + String(givenCount + "") + ".", "ArgumentCountException", file, line, func) {}
     };
 
-    class NullReferenceException : public Exception
+    Class(NullReferenceException) extends Exception
     {
     public:
         NullReferenceException(String message = "Null reference exception.") noexcept : Exception(message) {}
@@ -109,7 +110,7 @@ namespace PandoraEX::Exceptions
         NullReferenceException(String message, String file, String line, String func) noexcept : Exception(message, "NullReferenceException", file, line, func) {}
     };
 
-    class NotFoundException : public Exception
+    Class(NotFoundException) extends Exception
     {
     public:
         NotFoundException(String message = "Item not found.") noexcept : Exception(message) {}
@@ -117,7 +118,7 @@ namespace PandoraEX::Exceptions
         NotFoundException(String message, String file, String line, String func) noexcept : Exception(message, "NotFoundException", file, line, func) {}
     };
 
-    class IndexOutOfBoundsException : public Exception
+    Class(IndexOutOfBoundsException) extends Exception
     {
     public:
         IndexOutOfBoundsException(String message = "Index out of bounds.") noexcept : Exception(message) {}

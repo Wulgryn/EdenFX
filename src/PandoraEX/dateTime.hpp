@@ -1,9 +1,11 @@
 #ifndef PANDORAEX_DATE_TIME_HPP
 #define PANDORAEX_DATE_TIME_HPP
 
+#include "PandoraEX/object.hpp"
+
 namespace PandoraEX
 {
-    class DateTime
+    Class(DateTime)
     {
     public:
         DateTime();

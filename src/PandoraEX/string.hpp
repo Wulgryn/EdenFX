@@ -2,10 +2,11 @@
 #define PANDORAEX_STRING_HPP
 
 #include <string>
+#include "PandoraEX/object.hpp"
 
 namespace PandoraEX
 {
-    class String : public std::string
+    Class(String) pextends std::string
     {
     public:
 /**=======================================================================================================================*

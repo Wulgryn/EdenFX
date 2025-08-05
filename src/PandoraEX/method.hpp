@@ -14,6 +14,7 @@
 #include <any>
 #include <iostream>
 
+#include "PandoraEX/object.hpp"
 #include "exception.hpp"
 #include "../PandoraDebug/console.hpp"
 
@@ -22,7 +23,7 @@ namespace PandoraEX
     /// @brief A class that represents a method with a specific signature.
     /// @tparam ReturnType The return type of the method. Default is void.
     template <typename ReturnType = void>
-    class Method
+    Class(Method)
     {
     private:
         std::function<ReturnType()> __func;
@@ -114,7 +115,7 @@ namespace PandoraEX
 
         /// @brief Copy constructor for Method class.
 
-        Method(const Method &method)
+        Method(const Method &method) : Object(method)
         {
             
             __func = method.__func;
@@ -123,6 +124,8 @@ namespace PandoraEX
             __has_stored_args = method.__has_stored_args;
             __signature = method.__signature;
         }
+
+
 
         /// @brief Constructor for Method class that takes a function and its arguments.
         /// @tparam Func The type of the function.
@@ -162,6 +165,17 @@ namespace PandoraEX
             }
         }
 
+        template <typename Type = void>
+        Method<void> operator=(const Method<Type> &other)
+        {
+            __func = other.__func;
+            __func_wo_args = other.__func_wo_args;
+            __arg_count = other.__arg_count;
+            __has_stored_args = other.__has_stored_args;
+            __signature = other.__signature;
+            return *this;
+        }
+
         /// @brief Constructor for Method class that takes a function without arguments.
         /// @tparam Func The type of the function.
         /// @param func The function to be stored in the Method object.
@@ -179,7 +193,7 @@ namespace PandoraEX
         /// @throws `ArgumentCountException` - If the number of arguments does not match the expected count.
         /// @throws `SignatureException` - If the signature of the function does not match the expected signature.
         template <typename... Args>
-        ReturnType Invoke(Args &&...args)
+        ReturnType invoke(Args &&...args)
         {
             if (__arg_count > (int)sizeof...(Args) && !__has_stored_args)
             {
@@ -238,7 +252,7 @@ namespace PandoraEX
         template <typename... Args>
         ReturnType operator()(Args &&...args)
         {
-            return Invoke(std::forward<Args>(args)...);
+            return invoke(std::forward<Args>(args)...);
         }
     };
 }

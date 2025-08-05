@@ -1,16 +1,18 @@
 #ifndef PANDORAEX_EVENT_HPP
 #define PANDORAEX_EVENT_HPP
 
+#include "PandoraEX/object.hpp"
 #include "list.hpp"
 #include "method.hpp"
 
 namespace PandoraEX
 {
+
     /// @brief Event class for managing event callbacks.
     /// @tparam Args The types of the arguments that the event will pass to the callbacks.
     /// @details This class allows you to add, remove, and invoke methods that are registered to the event.
     template <typename... Args>
-    class Event
+    Class(Event)
     {
         List<Method<void>> methods;
 
@@ -69,13 +71,115 @@ namespace PandoraEX
         /// @brief Invokes all methods registered to the event with the provided arguments.
         /// @param args The arguments to pass to the methods.
         /// @details This will call each method in the order they were added to the event.
-        /// @tparam Args The types of the arguments that the methods expect.
-        void Invoke(Args &&...args)
+        void invoke(const Args &... args)
         {
             for (size_t i = 0; i < methods.size(); i++)
             {
-                methods[i].Invoke(std::forward<Args>(args)...);
+                methods[i].invoke(args...);
             }
+        }
+    };
+
+    /// @brief Controlled event class for managing event callbacks with ownership.
+    /// @tparam Owner The type of the owner that controls the event.
+    /// @tparam ...Args The types of the arguments that the event will pass to the callbacks.
+    /// @tparam IsClearEnabled If true, all stored methods can be cleared by anyone.
+    template <typename Owner, bool IsClearEnabled, typename... Args>
+    class ControlledEvent;
+
+    /// @brief Controlled event class for managing event callbacks with ownership.
+    /// @tparam Owner The type of the owner that controls the event.
+    /// @tparam ...Args The types of the arguments that the event will pass to the callbacks.
+    /// @tparam IsClearEnabled If true, all stored methods can be cleared by anyone.
+    template <typename Owner, typename... Args>
+    Class(ControlledEvent<Owner, true, Args...>)
+    {
+        Event<Args...> event;
+        friend Owner;
+
+        // void invoke(Args &&...args)
+        /// @brief Invokes all methods registered to the event with the provided arguments.
+        /// @param args The arguments to pass to the methods.
+        /// @details This will call each method in the order they were added to the event.
+        /// @tparam Args The types of the arguments that the methods expect.
+        void invoke(const Args &... args)
+        {
+            event.invoke(args...);
+        }
+    public:
+        /// @brief Constructor for ControlledEvent.
+        ControlledEvent() {}
+
+        /// @brief Adds a method to the controlled event.
+        /// @param method The method to add.
+        void operator+=(Method<void> method)
+        {
+            event += method;
+        }
+
+        /// @brief Removes a method from the controlled event.
+        /// @param method The method to remove.
+        void operator-=(Method<void> method)
+        {
+            event -= method;
+        }
+
+        void add(Method<void> method)
+        {
+            event.add(method);
+        }
+
+        void remove(Method<void> method)
+        {
+            event.remove(method);
+        }
+
+        void operator=(Method<void> method)
+        {
+            event = method;
+        }
+
+        /// @brief Clears all methods registered to the controlled event.
+        void clear()
+        {
+            event.clear();
+        }
+    };
+
+    /// @brief Controlled event class for managing event callbacks with ownership.
+    /// @tparam Owner The type of the owner that controls the event.
+    /// @tparam ...Args The types of the arguments that the event will pass to the callbacks.
+    /// @tparam IsClearEnabled If true, all stored methods can be cleared by anyone.
+    template <typename Owner, typename... Args>
+    Class(ControlledEvent<Owner, false, Args...>)
+    {
+        Event<Args...> event;
+        friend Owner;
+
+        /// @brief Invokes all methods registered to the event with the provided arguments.
+        /// @param args The arguments to pass to the methods.
+        /// @details This will call each method in the order they were added to the event.
+        /// @tparam Args The types of the arguments that the methods expect.
+        void invoke(Args &&...args)
+        {
+            event.invoke(std::forward<Args>(args)...);
+        }
+    public:
+        /// @brief Constructor for ControlledEvent.
+        ControlledEvent() {}
+
+        /// @brief Adds a method to the controlled event.
+        /// @param method The method to add.
+        void operator+=(Method<void> method)
+        {
+            event += method;
+        }
+
+        /// @brief Removes a method from the controlled event.
+        /// @param method The method to remove.
+        void operator-=(Method<void> method)
+        {
+            event -= method;
         }
     };
 }

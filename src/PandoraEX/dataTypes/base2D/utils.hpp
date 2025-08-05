@@ -1,6 +1,7 @@
 #ifndef BASE2D_UTILS_HPP
 #define BASE2D_UTILS_HPP
 #pragma once
+#include "PandoraEX/object.hpp"
 #include "../../string.hpp"
 
 /* ADD: descriptions
@@ -11,7 +12,7 @@
 
 namespace PandoraEX::Base2D
 {
-    struct Utils
+    Struct(Utils)
     {
         // @brief Default constructor.
         Utils(double &val1, double &val2);

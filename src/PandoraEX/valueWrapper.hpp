@@ -3,162 +3,82 @@
 
 #include <memory>
 #include <type_traits>
+#include "PandoraEX/object.hpp"
 #include "exception.hpp"
+#include "PandoraDebug/console.hpp"
 
 namespace PandoraEX
 {
     template <class T>
-    class ValueWrapper
+    Class(ValueWrapper)
     {
-        using Type = std::conditional_t<std::is_pointer_v<std::remove_reference_t<T>>, std::remove_reference_t<T>, std::remove_reference_t<T> *>;
-        Type value;
-        std::conditional_t<std::is_pointer_v<T>, T, const T&> refVal = value;
-        std::unique_ptr<std::remove_reference_t<T>> ptr = nullptr; // Pointer to the object if T is not a pointer.
+        const T *original_ptr = nullptr;
+        std::shared_ptr<T> ptr;
+
     public:
-        /// @brief Flag to indicate whether to free the memory when the ValueWrapper is destroyed.
-        /// @details If T is a pointer, this flag will be used to determine whether to free the memory pointed to by the pointer. If T is not a pointer, this flag will be ignored.
-        bool freeAll = true; // Flag to indicate whether to free the memory when the ValueWrapper is destroyed.
-
-        /// @brief Default constructor for ValueWrapper.
-        ValueWrapper() : value(nullptr) {};
-
-        /// @brief Constructor for ValueWrapper that takes a value.
-        /// @param value The value to be wrapped.
-        ValueWrapper(const T &value) : refVal(value)
-        {
-            if constexpr (std::is_pointer_v<T>)
+        ValueWrapper() : ptr(std::make_shared<T>()){
+            PDC::logTrace("ValueWrapper constructor(id): %d", id());
+        };
+        ValueWrapper(const T &value) : ptr(std::make_shared<T>(std::move(value))), original_ptr(std::addressof(value)) {
+            
+            if constexpr (std::is_base_of_v<Object, T>)
             {
-                // If T is a pointer, assign it directly.
-                this->value = value;
+                PDC::logTrace("<%s> ValueWrapper constructor(id): %d -> with value(id): %d", Utils::demangle(typeid(T).name()).c_str(), id(), ((Object)value).id());
             }
             else
             {
-                // Otherwise, allocate a new object.
-                ptr = std::make_unique<std::remove_reference_t<T>>(value);
-                // std::shared_ptr<std::remove_reference_t<T>> ptr_shared = std::make_shared<std::remove_reference_t<T>>(value); // Ensure the object is allocated on the heap.
-                this->value = ptr.get(); // Get the raw pointer from the shared_ptr.
-                // std::cout << "ValueWrapper: Allocated new object at " << this->value << std::endl;
-                // std::cout << "ValueWrapper: Value is " << *this->value << std::endl;
+                PDC::logTrace("<%s> ValueWrapper constructor(id): %d -> not object value", Utils::demangle(typeid(T).name()).c_str(), id());
+            }
+            // PDC::logTrace("ValueWrapper constructor(id): %d -> with value(id): %d", id(), ((Object)value).id());
+            if constexpr (std::is_base_of_v<Object, T> ) if(((Object)value).id() != ptr->id())
+            {
+                PDC::logFailure("original id: %d", ((Object)value).id());
+
+                PDC::logFailure("wrapped id: %d", ptr->id());
             }
         }
 
-        /// @brief Move constructor for ValueWrapper.
-        // ValueWrapper(ValueWrapper &&other) noexcept
-        //     : value(other.value), ptr(std::move(other.ptr)), freeAll(other.freeAll)
-        // {
-        //     other.value = nullptr;
-        //     other.freeAll = true;
-        // }
-
-        ValueWrapper(ValueWrapper &&) noexcept = default;
-        ValueWrapper &operator=(ValueWrapper &&) noexcept = default;
-
-        // --- másoló konstruktor ---
-        ValueWrapper(const ValueWrapper &other)
-            : freeAll(other.freeAll)
+        ValueWrapper(const ValueWrapper<T> &other) : Object(other), ptr(other.ptr), original_ptr(other.original_ptr)
         {
-            if constexpr (std::is_pointer_v<T>)
+            if constexpr (std::is_base_of_v<Object, T>)
             {
-                value = other.value;
+                PDC::logTrace("<%s> ValueWrapper copy constructor(id): %d -> with value(id): %d", Utils::demangle(typeid(T).name()).c_str(), id(), ptr->id());
             }
             else
             {
-                if (other.ptr)
-                {
-                    ptr = std::make_unique<std::remove_reference_t<T>>(*other.ptr);
-                    value = ptr.get();
-                }
-                else
-                {
-                    ptr = nullptr;
-                    value = nullptr;
-                }
-            }
-        }
-
-        // --- másoló értékadó operátor ---
-        ValueWrapper &operator=(const ValueWrapper &other)
-        {
-            if (this != &other)
-            {
-                freeAll = other.freeAll;
-                if constexpr (std::is_pointer_v<T>)
-                {
-                    value = other.value;
-                }
-                else
-                {
-                    if (other.ptr)
-                    {
-                        ptr = std::make_unique<std::remove_reference_t<T>>(*other.ptr);
-                        value = ptr.get();
-                    }
-                    else
-                    {
-                        ptr.reset();
-                        value = nullptr;
-                    }
-                }
-            }
-            return *this;
-        }
-
-        /// @brief Funcion to get the wrapped value.
-        /// @details If T is a pointer, it returns the pointer. If T is not a pointer, it returns a reference to the value.
-        /// @return The wrapped value.
-        /// @throws `NullReferenceException` - If the value is null and T is a pointer.
-        std::conditional_t<std::is_pointer_v<T>, T, T &> get() const
-        {
-            if constexpr (std::is_pointer_v<T>)
-            {
-                if (!value)
-                {
-                    ThrowExceptionF(PandoraEX::Exceptions::NullReferenceException, "Value is null.");
-                }
-                return value;
-            }
-            else
-            {
-                return *value;
+                PDC::logTrace("<%s> ValueWrapper copy constructor(id): %d -> not object value", Utils::demangle(typeid(T).name()).c_str(), id());
             }
         }
 
         bool operator==(const ValueWrapper<T> &other) const
         {
+            if (original_ptr == other.original_ptr)
+                return true;
             if constexpr (std::is_pointer_v<T>)
             {
-                return value == other.value || &refVal == &other.refVal;
+                if (!ptr || !other.ptr)
+                {
+                    return *ptr == *other.ptr;
+                }
+                return false;
             }
-            else
+            else if constexpr (std::is_same_v<T, PandoraEX::Object>)
             {
-                return &value == &other.value || &refVal == &other.refVal;
+                return *ptr == *other.ptr || ptr->equals(*other.ptr) || ptr->id() == other.ptr->id();
             }
+            return ptr == other.ptr;
         }
 
-        bool isPointer() const
-        {
-            return std::is_pointer_v<T>;
-        }
+        const T &get() const { return *ptr; }
 
-        ~ValueWrapper() noexcept
+        ~ValueWrapper()
         {
-            if constexpr (!std::is_pointer_v<T>)
+            if (ptr)
             {
-                if (ptr)
-                {
-                    ptr.reset();
-                    ptr = nullptr;
-                }
-            }
-            else
-            {
-                if (freeAll && value)
-                {
-                    delete value;    // Free the memory if freeAll is true.
-                    value = nullptr; // Set the pointer to null.
-                }
+                ptr.reset();
             }
         }
     };
 }
+
 #endif // PANDORAEX_VALUE_WRAPPER_HPP

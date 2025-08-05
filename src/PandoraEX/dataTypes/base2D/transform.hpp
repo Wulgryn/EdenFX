@@ -1,6 +1,8 @@
 #ifndef BASE2D_TRANSFORM_HPP
 #define BASE2D_TRANSFORM_HPP
 
+#include "PandoraEX/object.hpp"
+
 /* [ ] FIX: fix comments
  *& *================================FIX====================================
  *& * DESCRIPTION: fix the style of the comments, and the names from x,y to val1, val2
@@ -23,7 +25,7 @@
 namespace PandoraEX::Base2D
 {
     template <class Type>
-    struct Transform
+    Struct(Transform)
     {
         Transform(double &val1, double &val2);
 

@@ -8,12 +8,13 @@
  *& *=======================================================================
  *& */
 
+#include "PandoraEX/object.hpp"
 #include <cstdint>
 
 namespace PandoraEX::Base2D
 {
     template <class Type>
-    struct Math
+    Struct(Math)
     {
         Math(double &val1, double &val2);
 

@@ -4,14 +4,14 @@
 #include <vector>
 #include <iostream>
 
-// #include "refSmartWrap.hpp"
+#include "PandoraEX/object.hpp"
 #include "valueWrapper.hpp"
 #include "exception.hpp"
 
 namespace PandoraEX
 {
     template <class Type>
-    class List
+    Class(List)
     {
     protected:
         // std::vector<RefSmartWrap<Type>> data_vec;
@@ -45,7 +45,7 @@ namespace PandoraEX
             //     data_vec.push_back(RefSmartWrap<Type>(std::make_shared<Type>(item)));
 
             // data_vec.push_back(ValueWrapper<Type>(item));
-            data_vec.emplace_back(item);
+            data_vec.push_back(item);
         }
 
         /// @brief Finds the index of an item in the list.
@@ -55,7 +55,7 @@ namespace PandoraEX
         {
             for (size_t i = 0; i < data_vec.size(); i++)
             {
-                if (data_vec[i] == item)
+                if (((ValueWrapper<Type>)data_vec[i]).operator==(item))
                     return i;
             }
             return -1;
@@ -78,7 +78,7 @@ namespace PandoraEX
         virtual void removeAt(size_t index)
         {
             if (index >= data_vec.size())
-                ThrowException(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got " + std::string(index + "") + ", expected 0-" + std::string((data_vec.size() - 1) + "") + ".");
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
             data_vec.erase(data_vec.begin() + index);
         }
 
@@ -104,7 +104,7 @@ namespace PandoraEX
         std::conditional_t<std::is_pointer_v<Type>, Type, Type&> operator[](size_t index) const
         {
             if (index >= data_vec.size())
-                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got {}, expected 0-{}.",std::to_string(index),std::to_string(data_vec.size() - 1));
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
             return data_vec[index].get();
         }
 
@@ -117,7 +117,7 @@ namespace PandoraEX
         std::conditional_t<std::is_pointer_v<Type>, Type, Type&> at(size_t index) const
         {
             if (index >= data_vec.size())
-                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got {}, expected 0-{}.",std::to_string(index),std::to_string(data_vec.size() - 1));
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
             return data_vec[index].get();
         }
 

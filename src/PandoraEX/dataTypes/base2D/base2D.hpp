@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <typeinfo>
+#include "PandoraEX/object.hpp"
 #include "../../utils.hpp"
 #include "../../exception.hpp"
 
@@ -18,7 +19,7 @@ namespace PandoraEX::Base2D
     /// @brief Base2D class
     /// @tparam T The derived class, must be derived from Base2D<T>
     template <class Type>
-    struct Base2D
+    Struct(Base2D)
     {
         /// @brief Constructor.
         /// @param data The data to set val1 and val2 to.

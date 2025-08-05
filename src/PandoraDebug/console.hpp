@@ -289,4 +289,6 @@ namespace PandoraDebug
     typedef DebugConsole DC;
 }
 
+typedef PandoraDebug::DebugConsole PDC;
+
 #endif // PANDORADEBUG_CONSOLE_HPP

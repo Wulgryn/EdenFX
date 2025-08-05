@@ -1,6 +1,7 @@
 #ifndef BASE2D_PRIMITIVES_SIZE2D_HPP
 #define BASE2D_PRIMITIVES_SIZE2D_HPP
 
+#include "PandoraEX/object.hpp"
 #include "../planeGeometryMath.hpp"
 #include "../utils.hpp"
 #include "../base2D.hpp"
@@ -8,12 +9,12 @@
 namespace PandoraEX::Base2D
 {
     template <class Type>
-    struct Size2D : Base2D<Type>, PlaneGeometry2D, Utils
+    Struct(Size2D) extends Base2D<Type>, PlaneGeometry2D, Utils
     {
         double width = 0, height = 0;
         Size2D() : Base2D<Type>(width, height), PlaneGeometry2D(width, height), Utils(width, height) {}
 
-        template <class U>
+        template <typename U>
         bool operator==(const U &b2) const
         {
             /* ADD: class test
@@ -32,7 +33,7 @@ namespace PandoraEX::Base2D
             return area() == b2 && perimeter() == b2;
         }
 
-        template <class U>
+        template <typename U>
         bool operator!=(const U &b2) const
         {
             return area() != b2.area() || perimeter() != b2.perimeter();
@@ -42,7 +43,7 @@ namespace PandoraEX::Base2D
             return area() != b2 || perimeter() != b2;
         }
 
-        template <class U>
+        template <typename U>
         bool operator>(const U &b2) const
         {
             return area() > b2.area() && perimeter() > b2.perimeter();
@@ -52,7 +53,7 @@ namespace PandoraEX::Base2D
             return area() > b2 && perimeter() > b2;
         }
 
-        template <class U>
+        template <typename U>
         bool operator<(const U &b2) const
         {
             return area() < b2.area() && perimeter() < b2.perimeter();
@@ -62,7 +63,7 @@ namespace PandoraEX::Base2D
             return area() < b2 && perimeter() < b2;
         }
 
-        template <class U>
+        template <typename U>
         bool operator>=(const U &b2) const
         {
             return area() >= b2.area() && perimeter() >= b2.perimeter();
@@ -87,7 +88,7 @@ namespace PandoraEX::Base2D
             return !width && !height;
         }
 
-        template <class U>
+        template <typename U>
         bool operator&&(const Base2D<U> &b2) const
         {
             return width && height && b2.width && b2.height;
@@ -97,7 +98,7 @@ namespace PandoraEX::Base2D
             return width && height && b2;
         }
 
-        template <class U>
+        template <typename U>
         bool operator||(const Base2D<U> &b2) const
         {
             return width || height || b2.width || b2.height;

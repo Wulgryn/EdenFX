@@ -7,6 +7,7 @@
 #include "glad/gl.h"
 
 #include <thread>
+#include <type_traits>
 
 using namespace PandoraUI;
 using namespace PandoraEX;
@@ -19,7 +20,7 @@ void Window::setFPS(int fps)
         DC::logWarning("FPS cannot be less than -1.");
         return;
     }
-    this->_fps = fps;
+    this->fps = fps;
 }
 
 void Window::open()
@@ -29,7 +30,8 @@ void Window::open()
         DC::logFailure("Cannot open window that is not initialized.");
         return;
     }
-    WindowManager::registerWindow(*this);
+    Window& w = WindowManager::registerWindow(*this);
+    glfwSetWindowUserPointer(_window, &w);
 }
 
 void Window::close()
@@ -48,17 +50,16 @@ void Window::waitForExit()
 void Window::render()
 {
     glfwMakeContextCurrent(_window);   
-    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     glClear(GL_COLOR_BUFFER_BIT);
     renderGUI();
-    onRender.Invoke(this);
+    onRender.invoke(this);
     glfwSwapBuffers(_window);
 }
 
 void Window::update()
 {
-    if(_lastFrameTime + 1.0 / _fps > WindowManager::getCurrentFrameTime()) return;
+    if(_lastFrameTime + 1.0 / fps > WindowManager::getCurrentFrameTime()) return;
     _lastFrameTime = WindowManager::getCurrentFrameTime();
     render();
-    onLateUpdate.Invoke(this);
+    onLateUpdate.invoke(this);
 }

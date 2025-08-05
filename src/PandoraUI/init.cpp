@@ -103,14 +103,7 @@ int PandoraUI::waitForExit(bool pauseOnExit)
     DC::logInfo(" Starting PandoraUI event loop...");
 
     WindowManager::startFrameTimeUpdateThread();
-    while (WindowManager::getWindowCount() > 0)
-    {
-        for (int i = 0; i < WindowManager::getWindowCount(); i++)
-        {
-            WindowManager::getWindow(i).update();
-        }
-        glfwPollEvents();
-    }
+    WindowManager::startUpdateLoop();
     glfwTerminate();
 
     DC::logInfo(" Exiting PandoraUI event loop.");

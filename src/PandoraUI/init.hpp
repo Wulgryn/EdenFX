@@ -1,6 +1,7 @@
 #ifndef PANDORAUI_INIT_HPP
 #define PANDORAUI_INIT_HPP
 
+#include "PandoraEX/object.hpp"
 #include "../PandoraEX/string.hpp"
 
 namespace PandoraUI
@@ -19,7 +20,7 @@ namespace PandoraUI
     };
 
     /// @brief Class representing the status of the initialization process.
-    class InitStatus
+    Class(InitStatus)
     {
         const InitStatusCode code;
         const PandoraEX::String message;

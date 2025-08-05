@@ -4,11 +4,12 @@
 template <class Type>
 struct Vector2D;
 
+#include "PandoraEX/object.hpp"
 #include <cmath>
 
 namespace PandoraEX::Base2D
 {
-    struct VectorGeometry2D
+    Struct(VectorGeometry2D)
     {
         VectorGeometry2D(double &val1, double &val2);
 

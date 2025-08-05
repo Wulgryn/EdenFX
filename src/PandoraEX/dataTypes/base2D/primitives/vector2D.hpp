@@ -8,7 +8,7 @@
 namespace PandoraEX::Base2D
 {
     template <class Type>
-    struct Vector2D : Base2D<Type>, Utils, VectorGeometry2D
+    Struct(Vector2D) extends Base2D<Type>, Utils, VectorGeometry2D
     {
         double x = 0, y = 0;
         Vector2D() : Base2D<Type>(x, y), Utils(x, y), VectorGeometry2D(x, y)  {}

@@ -11,9 +11,8 @@ using namespace PandoraDebug;
 
 void Window::initialize()
 {
-    if (this->_isInitialized) return;
-
-
+    if (this->_isInitialized)
+        return;
 
     /* ADD: add later
      *+ *=================================ADD===================================
@@ -24,7 +23,7 @@ void Window::initialize()
     {
     }
 
-    _window = glfwCreateWindow(_size.width, _size.height, _title.c_str(), NULL, NULL);
+    _window = glfwCreateWindow(size->width, size->height, title->c_str(), NULL, NULL);
 
     if (!_window)
     {
@@ -35,32 +34,41 @@ void Window::initialize()
     DC::logSuccess("GLFW window created successfully");
     glfwMakeContextCurrent(_window);
 
-    if (!gladLoadGL(glfwGetProcAddress))
+    // verify that GLAD has been initialized by checking a core function pointer
+    if (glad_glGetString == nullptr)
     {
-        glfwTerminate();
-        DC::logFailure("Failed to initialize GLAD");
-        return;
+        if (!gladLoadGL(glfwGetProcAddress))
+        {
+            glfwTerminate();
+            DC::logFailure("Failed to initialize GLAD");
+            return;
+        }
+        DC::logSuccess("GLAD initialized successfully");
     }
-    DC::logSuccess("GLAD initialized successfully");
-    
-    glfwSetWindowUserPointer(_window, this);
-    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow *window, int width, int height) {
-        Window *win = (Window *)glfwGetWindowUserPointer(window);
-        win->_size = Size2(width, height);
-        glViewport(0, 0, width, height);
-    });
+    else
+    {
+        DC::logInfo("GLAD already initialized");
+    }
 
-    glfwSetWindowCloseCallback(_window, [](GLFWwindow *window) {
+    glfwSetWindowUserPointer(_window, this);
+    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow *window, int width, int height)
+                                   {
         Window *win = (Window *)glfwGetWindowUserPointer(window);
+        win->size = Size2(width, height);
+        glViewport(0, 0, width, height); });
+
+    glfwSetWindowCloseCallback(_window, [](GLFWwindow *window)
+                               {
+        Window* win = (Window *)glfwGetWindowUserPointer(window);
         WindowManager::unregisterWindow(*win);
         win->onLateUpdate = [](Window *win) {
             glfwDestroyWindow(win->_window);
             win->_window = NULL;
             win->_isInitialized = false;
-            DC::logInfo("Window closed. \"%s\"", win->_title.c_str());
-        };
-    });
+            DC::logInfo("Window closed. \"%s\"", win->title->c_str());
+        }; });
 
+    glClearColor(((Color)backgroundColor).r, ((Color)backgroundColor).g, ((Color)backgroundColor).b, ((Color)backgroundColor).a);
 
     this->_isInitialized = true;
 }

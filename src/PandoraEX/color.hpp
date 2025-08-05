@@ -1,6 +1,7 @@
 #ifndef PANDORAEX_COLOR_HPP
 #define PANDORAEX_COLOR_HPP
 
+#include "object.hpp"
 #include <cstddef>
 
 namespace PandoraEX
@@ -8,7 +9,7 @@ namespace PandoraEX
     /// @brief Represents a color with red, green, blue, and alpha components.
     /// @details Each component is a floating-point value in the range of 0.0 to 1.0.
     /// @note The color components can also be set using byte values (0 to 255), which will be converted to the range of 0.0 to 1.0.
-    struct Color
+    Struct(Color)
     {
         /// @brief Red component of the color (0.0 to 1.0).
         /// @note This is a floating-point value, not a byte.

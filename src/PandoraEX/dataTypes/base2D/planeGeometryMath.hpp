@@ -1,6 +1,7 @@
 #ifndef BASE2D_PLANE_GEOMETRY_MATH_HPP
 #define BASE2D_PLANE_GEOMETRY_MATH_HPP
 
+#include "PandoraEX/object.hpp"
 /* [ ] FIX: fix comments
  *& *================================FIX====================================
  *& * DESCRIPTION: fix the style of the comments, and the names from x,y to val1, val2
@@ -11,7 +12,7 @@
 namespace PandoraEX::Base2D
 {
     /// @brief PlaneGeometry2D struct
-    struct PlaneGeometry2D
+    Struct(PlaneGeometry2D)
     {
         /// @brief Default constructor.
         /// @param val1 The value to set val1;

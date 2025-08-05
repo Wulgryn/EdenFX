@@ -1,9 +1,9 @@
 #ifndef PANDORAUI_UIELEMENT_HPP
 #define PANDORAUI_UIELEMENT_HPP
-
+#include "PandoraEX/object.hpp"
 namespace PandoraUI
 {
-    class UIElement
+    Class(UIElement)
     {
     public:
         UIElement() = default;

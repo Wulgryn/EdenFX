@@ -12,6 +12,10 @@ void init_window()
     PandoraUI::Window w;
     w.initialize();
     w.open();
+
+    PandoraUI::Window w2;
+    w2.initialize();
+    w2.open();
 }
 
 using namespace PandoraEX;
@@ -23,3 +27,4 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
     // system("pause");
     return PandoraUI::waitForExit(true);
 }
+

@@ -1,7 +1,8 @@
 #ifndef PANDORAUI_WINDOW_MANAGER_HPP
 #define PANDORAUI_WINDOW_MANAGER_HPP
 
-#include "PandoraEX/list.hpp"
+#include "PandoraEX/object.hpp"
+#include "PandoraEX/asyncList.hpp"
 
 
 namespace PandoraUI
@@ -9,18 +10,22 @@ namespace PandoraUI
     class Window;
     /// @brief Manages all windows in the application.
     /// @details This class is responsible for registering, unregistering, and managing the lifecycle of windows.
-    class WindowManager
+    Class(WindowManager)
     {
         static PandoraEX::List<Window> windows;
         static long currentFrameTime;
     public:
         /// @brief Registers a window with the WindowManager.
         /// @param window The window to register.
-        static void registerWindow(const Window& window);
+        static Window& registerWindow(const Window& window);
 
         /// @brief Unregisters a window from the WindowManager.
         /// @param window The window to unregister.
         static void unregisterWindow(const Window& window);
+
+        /// @brief Unregisters a window by its index.
+        /// @param index The index of the window to unregister.
+        static void unregisterWindow(int index);
 
         /// @brief Gets a window by its index.
         /// @param index The index of the window.
@@ -32,6 +37,10 @@ namespace PandoraUI
 
         /// @brief Closes all windows.
         static void closeAllWindows();
+
+        /// @brief Starts the update loop for all registered windows.
+        /// @note This method will continuously update all registered windows.
+        static void startUpdateLoop();
 
         /// @brief Gets the number of registered windows.
         /// @return The number of registered windows.

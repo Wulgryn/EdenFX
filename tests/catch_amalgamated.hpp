@@ -2247,13 +2247,13 @@ namespace Catch {
                 ~ObjectStorage() { destruct_on_exit<T>(); }
 
                 template <typename... Args>
-                void construct(Args&&... args)
+                void conStruct(Args&&... args)
                 {
                     new (data) T(CATCH_FORWARD(args)...);
                 }
 
                 template <bool AllowManualDestruction = !Destruct>
-                std::enable_if_t<AllowManualDestruction> destruct()
+                std::enable_if_t<AllowManualDestruction> deStruct()
                 {
                     stored_object().~T();
                 }

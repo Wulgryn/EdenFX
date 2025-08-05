@@ -1,6 +1,7 @@
 #ifndef PANDORAEX_SIZE2_HPP
 #define PANDORAEX_SIZE2_HPP
 
+#include "PandoraEX/object.hpp"
 #include "dataTypes/base2D/math.hpp"
 #include "dataTypes/base2D/transform.hpp"
 #include "dataTypes/base2D/primitives/size2D.hpp"
@@ -20,7 +21,7 @@ namespace PandoraEX
  *+ *=======================================================================
  *+ */
 
-    struct Size2 : public Base2D::Size2D<Size2>, Base2D::Math<Size2>, Base2D::Transform<Size2>
+    Struct(Size2) pextends Base2D::Size2D<Size2>, Base2D::Math<Size2>, Base2D::Transform<Size2>
     {
         /// @brief Default constructor.
         Size2();
@@ -40,7 +41,7 @@ namespace PandoraEX
         
         /// @brief Copy constructor.
         /// @param other The object to copy from.
-        constexpr Size2(const Size2 &other) = default;
+        Size2(const Size2 &other) = default;
 
         /// @brief Assignment operator. Sets width and height to b2.width and b2.height.
         /// @param b2 The object to assign.
