@@ -53,6 +53,7 @@
         <Value>gnu++11</Value>
         <Value>gnu++03</Value>
         <Value>gnu++98</Value>
+        <Value>c++26</Value>
       </cppStandard.Values>
       <!--'defines': separated by space-->
     </Cpp_Config>
@@ -65,12 +66,12 @@
       <Value>Debug</Value>
     </BuildType>
     <Flags>
-      <DebugCompile>{debug_compile_flags} -fdiagnostics-all-candidates</DebugCompile>
-      <DebugLink>{debug_link_flags} -static</DebugLink>
+      <DebugCompile>{debug_compile_flags} -O0 -fdiagnostics-all-candidates</DebugCompile>
+      <DebugLink>{debug_link_flags} -lstdc++exp</DebugLink>
       <ReleaseCompile>{release_compile_flags}</ReleaseCompile>
-      <ReleaseLink>{release_link_flags}</ReleaseLink>
+      <ReleaseLink>{release_link_flags} -lstdc++exp</ReleaseLink>
       <PublishCompile>{release_compile_flags}</PublishCompile>
-      <PublishLink>{release_link_flags}</PublishLink>
+      <PublishLink>{release_link_flags} -lstdc++exp</PublishLink>
     </Flags>
     <Arch>
       <Values DefaultValueIndex="0">
@@ -89,8 +90,8 @@
     </OutputType>
   </Properties>
   <Datas>
-    <Data name="debug_compile_flags">-g -Og -Wall -Wextra -march=native -mtune=native -fno-stack-protector {std} {arch} -c {is_shared} {source_file} -o {output_obj_file} {headers} {defines}</Data>
-    <Data name="debug_link_flags">{std} {is_shared} -o {output_file} "{build_dir}/*.obj" {lib_sources} {libs} {dlls}</Data>
+    <Data name="debug_compile_flags">-ggdb3 -O0 -fno-inline -fno-omit-frame-pointer -fvar-tracking-assignments -femit-class-debug-always -fno-eliminate-unused-debug-symbols -Wall -Wextra -march=native -mtune=native -fno-stack-protector {std} {arch} -c {is_shared} {source_file} -o {output_obj_file} {headers} {defines}</Data>
+    <Data name="debug_link_flags">{std} {is_shared} -o {output_file} "{build_dir}/*.obj" {lib_sources} -ggdb3 {libs} {dlls}</Data>
     <Data name="release_compile_flags">-c -Wall {std} {arch} {optimizing_flags} {is_shared} {source_file} -o {output_obj_file} {headers} {defines}</Data>
     <Data name="release_link_flags">{std} {optimizing_link_flags} {is_shared} -o {output_file} "{build_dir}/*.obj" {is_static} {lib_sources} {libs} {dlls}</Data>
     <Data name="optimizing_flags">-Ofast -funroll-loops -ffast-math -fprefetch-loop-arrays  -fipa-cp -fgcse -ffunction-sections -fdata-sections -Wl,--gc-sections -floop-interchange -fipa-sra -fhoist-adjacent-loads -falign-functions -fstack-protector-strong -ftree-loop-distribution -funswitch-loops -ftree-slp-vectorize -fmerge-all-constants -fipa-pure-const -fschedule-insns -fschedule-insns2 -frename-registers -fipa-pta -fomit-frame-pointer -ftree-pre -floop-parallelize-all -Wmissing-declarations</Data>

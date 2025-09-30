@@ -1,0 +1,69 @@
+#ifndef PANDORAEX_STRING_HPP
+#define PANDORAEX_STRING_HPP
+
+#include <string>
+#include "PandoraEX/object.hpp"
+
+namespace PandoraEX
+{
+    Class(String) pextends std::string
+    {
+    public:
+/**=======================================================================================================================*
+ **                                                  REGION CONSTRUCTORS
+ *========================================================================================================================*/
+#pragma region CONSTRUCTORS
+        using std::string::string;
+
+        String();
+        String(const char *str);
+        String(const std::string &str);
+        String(const String &str);
+
+        String(const int &value);
+
+/**=======================================================================================================================*
+ **                                           END OF REGION CONSTRUCTORS
+ *========================================================================================================================*/
+#pragma endregion CONSTRUCTORS
+
+/**=======================================================================================================================*
+ **                                                  REGION OPERATORS
+ *========================================================================================================================*/
+#pragma region OPERATORS
+
+        String &operator=(const char *str);
+        String &operator=(const String &str);
+
+        // String operator+(const unsigned char str);
+        // String operator+(const unsigned short str);
+
+/**=======================================================================================================================*
+ **                                           END OF REGION OPERATORS
+ *========================================================================================================================*/
+#pragma endregion OPERATORS
+
+        /// @brief Pads a number with zeros to the left.
+        /// @param value The number to pad.
+        /// @param width The width of the number.
+        /// @return The padded number.
+        /// @note value = 7, width = 2 -> "07"
+        static String pad(int value, int width = 2);
+
+        /// @brief Pads a string with zeros to the left.
+        /// @param val The string to pad.
+        /// @param width The width of the string.
+        /// @return The padded string.
+        /// @note `value = "7", width = 2 -> "07"`
+        /// @note Value must be a "number".
+        static String pad(String val, int width = 2);
+
+        /// @brief Formats a string with the given format and arguments.
+        /// @param format The format string.
+        /// @param ... The arguments to format.
+        /// @return The formatted string.
+        static String format(const String &format, ...);
+    };
+}
+
+#endif // PANDORAEX_STRING_HPP
