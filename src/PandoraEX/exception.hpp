@@ -41,6 +41,15 @@ namespace PandoraEX::Exceptions
         ~Exception() noexcept = default;
     };
 
+#define CreateException(className, _message) \
+    class className : public Exception          \
+    {                                          \
+    public:                                    \
+        className(String message = _message) noexcept : Exception(message) {} \
+        className(String message, String file, String line) noexcept : Exception(message, #className, file, line) {} \
+        className(String message, String file, String line, String func) noexcept : Exception(message, file, line, func) {} \
+    };
+
 /// @brief Creates a new exception object with the given message.
 /// @param exceptionClass The class of the exception to create.
 /// @param __format The format string for the message.
@@ -67,6 +76,7 @@ namespace PandoraEX::Exceptions
 /// @param ... The arguments to format the message with.
 #define ThrowExceptionF(exceptionClass, format, ...) {PandoraEX::Exceptions::Exception ex = ExceptionF_(exceptionClass, format, ##__VA_ARGS__); ex.log(true); throw ex;}
 
+
     Class(InvalidArgumentException) pextends Exception
     {
     public:
@@ -87,7 +97,7 @@ namespace PandoraEX::Exceptions
             if (sizeof...(args) > 0)
             {
                 this->_message += "\nGiven argument types: ";
-                ((this->_message += Utils::demangle(typeid(args).name()) + " "), ...);
+                ((this->_message += Utils::typeName(args) + " "), ...);
             }
         }
     };
@@ -134,6 +144,8 @@ namespace PandoraEX::Exceptions
         NotImplementedException(String message, String file, String line, String func) noexcept : Exception(message, "NotImplementedException", file, line, func) {}
     };
 
+    CreateException(InvalidOperationException, "This operation is invalid.")
+    CreateException(DivideByZeroException, "Division by zero.")
 }
 
 #endif // PANDORAEX_EXCEPTION_HPP

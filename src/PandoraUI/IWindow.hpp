@@ -26,6 +26,7 @@ namespace PandoraUI
         
         void _update();
         void _render();
+        void _close();
         unsigned long long _id;
     protected:
         bool _isInitialized = false;

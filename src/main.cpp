@@ -1,5 +1,6 @@
 #include "PandoraUI/init.hpp"
 #include "PandoraUI/window.hpp"
+// #include "PandoraUI/windowManager.hpp"
 
 
 int main( [[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
@@ -13,5 +14,9 @@ int main( [[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
 
     PandoraUI::Window window2;
     window2.initialize();
+
+
+    // PandoraUI::WindowManager::closeAllWindows();
+
     return PandoraUI::waitForExit();
 }

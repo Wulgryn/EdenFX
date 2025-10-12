@@ -4,19 +4,18 @@
 #include "GLFW/glfw3.h"
 
 #include <thread>
-
+#include <functional>
 using namespace PandoraUI;
 
-PandoraEX::AsyncList<IWindow> WindowManager::windows;
+PandoraEX::AsyncList<std::reference_wrapper<IWindow>> WindowManager::windows;
 double WindowManager::currentFrameTime = 0;
-
-const IWindow& WindowManager::registerWindow(const IWindow& window)
+IWindow& WindowManager::registerWindow(IWindow& window)
 {
     windows.add(window);
     return windows.at(windows.indexOf(window));
 }
 
-void WindowManager::unregisterWindow(const IWindow& window)
+void WindowManager::unregisterWindow(IWindow& window)
 {
     windows.remove(window);
 }
@@ -28,12 +27,12 @@ void WindowManager::unregisterWindow(int index)
 
 IWindow& WindowManager::getWindow(int index)
 {
-    return const_cast<IWindow&>(windows.at(index));
+    return windows.at(index);
 }
 
-IWindow& WindowManager::getWindow(const IWindow& window)
+IWindow& WindowManager::getWindow(IWindow& window)
 {
-    return const_cast<IWindow&>(windows.at(windows.indexOf(window)));
+    return windows.at(windows.indexOf(window));
 }
 
 void WindowManager::startFrameTimeUpdateThread()
@@ -55,8 +54,8 @@ void WindowManager::closeAllWindows()
 {
     for (size_t i = 0; i < windows.size(); i++)
     {
-        // (windows[i]).close();
-        ThrowExceptionF(PandoraEX::Exceptions::NotImplementedException, "Window::close() is not implemented yet.");
+        getWindow(i).close();
+        // ThrowExceptionF(PandoraEX::Exceptions::NotImplementedException, "Window::close() is not implemented yet.");
     }
 }
 

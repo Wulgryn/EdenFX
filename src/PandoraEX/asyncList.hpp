@@ -46,8 +46,12 @@ namespace PandoraEX
             if (__clear)
                 List<Type>::clear();
             else
-                for (size_t i = 0; i < removeList.size(); i++)
-                    List<Type>::removeAt(removeList[i]);
+            {
+                // removeList.reverse( [](int& a, int& b) { return a > b; });
+                // removeList.reverse();
+                for (size_t i = removeList.size(); i > 0; i--)
+                    List<Type>::removeAt(removeList[i - 1]);
+            }
             __clear = false;
             removeList.clear();
         }

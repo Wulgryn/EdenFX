@@ -4,7 +4,6 @@
 #include "PandoraEX/object.hpp"
 #include "PandoraEX/asyncList.hpp"
 
-
 namespace PandoraUI
 {
     class IWindow;
@@ -12,16 +11,16 @@ namespace PandoraUI
     /// @details This class is responsible for registering, unregistering, and managing the lifecycle of windows.
     Class(WindowManager)
     {
-        static PandoraEX::AsyncList<IWindow> windows;
+        static PandoraEX::AsyncList<std::reference_wrapper<IWindow>> windows;
         static double currentFrameTime;
     public:
         /// @brief Registers a window with the WindowManager.
         /// @param window The window to register.
-        static const IWindow& registerWindow(const IWindow& window);
+        static IWindow& registerWindow(IWindow& window);
 
         /// @brief Unregisters a window from the WindowManager.
         /// @param window The window to unregister.
-        static void unregisterWindow(const IWindow& window);
+        static void unregisterWindow(IWindow& window);
 
         /// @brief Unregisters a window by its index.
         /// @param index The index of the window to unregister.
@@ -35,7 +34,7 @@ namespace PandoraUI
         /// @brief Gets a window by its reference.
         /// @param window The reference of the window.
         /// @return A reference to the window.
-        static IWindow& getWindow(const IWindow& window);
+        static IWindow& getWindow(IWindow& window);
 
         /// @brief Starts the frame time update thread.
         static void startFrameTimeUpdateThread();

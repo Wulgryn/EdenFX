@@ -7,6 +7,7 @@
 
 #include "PandoraEX/object.hpp"
 #include "PandoraEX/IList.hpp"
+#include "PandoraEX/IEnumerable.hpp"
 #include "valueWrapper.hpp"
 #include "exception.hpp"
 /* REVIEW: add with &&
@@ -19,7 +20,7 @@
 namespace PandoraEX
 {
     template <class Type>
-    Class(List) pextends IList<Type>
+    Class(List) extends public IList<Type>, public IEnumerable<Type>
     {
     protected:
         // std::vector<RefSmartWrap<Type>> data_vec;
@@ -173,6 +174,45 @@ namespace PandoraEX
                     std::cout << &data_vec[i] << std::endl;
                 }
             }
+        }
+
+        Type &begin() override
+        {
+            if (data_vec.empty())
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "List is empty.");
+            return data_vec[0];
+        }
+
+        Type &end() override
+        {
+            if (data_vec.empty())
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "List is empty.");
+            return data_vec[data_vec.size() - 1];
+        }
+
+        List<Type> &reverse() override
+        {
+            std::reverse(data_vec.begin(), data_vec.end());
+            return *this;
+        }
+
+        List<Type> &sort() override
+        {
+            // std::sort(data_vec.begin(), data_vec.end());
+            return *this;
+        }
+
+        List<Type> &sort(Method<bool> compare) override
+        {
+            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b) { return compare.invoke(a, b); });
+            return *this;
+        }
+
+        List<Type> &reverse(Method<bool> compare) override
+        {
+            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b) { return compare.invoke(a, b); });
+            std::reverse(data_vec.begin(), data_vec.end());
+            return *this;
         }
 
         /// @brief Default destructor for List.

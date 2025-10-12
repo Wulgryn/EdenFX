@@ -1224,6 +1224,9 @@ unsigned int DebugConsole::sm_dllSize = 14336;
 
 DebugConsoleClockPrecision DebugConsole::clockPrecision = DebugConsoleClockPrecision::MILLISECONDS;
 bool DebugConsole::logToFile = true;
+std::string DebugConsole::contextInfo = "";
+std::string DebugConsole::contextInfoOnce = "";
+
 
 string DebugConsole::getTime()
 {
