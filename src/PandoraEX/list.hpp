@@ -299,7 +299,7 @@ namespace PandoraEX
             return *this;
         }
 
-        void forEach(Method<void> action) override
+        void foreach(Method<void> action) override
         {
             for (size_t i = 0; i < data_vec.size(); i++)
             {

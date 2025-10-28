@@ -48,7 +48,7 @@ namespace PandoraEX
 
         /// @brief Performs the specified action on each element of the enumerable.
         /// @param action A function that takes an element and performs an action on it.
-        virtual void forEach(Method<void> action) = 0;
+        virtual void foreach(Method<void> action) = 0;
     };
 }
 

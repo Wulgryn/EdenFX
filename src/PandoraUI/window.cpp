@@ -4,8 +4,8 @@ using namespace PandoraUI;
 
 void Window::render()
 {
-    guiElements.forEach([](std::reference_wrapper<PandoraUI::GUI::IElement>& el) { el.get().render(); });
-    guiElements.forEach([](std::reference_wrapper<PandoraUI::GUI::IElement>& el) { el.get().update(); });
+    guiElements.foreach([](std::reference_wrapper<PandoraUI::GUI::IElement>& el) { el.get().render(); });
+    guiElements.foreach([](std::reference_wrapper<PandoraUI::GUI::IElement>& el) { el.get().update(); });
     guiElements.validateRemovals();
 }
 

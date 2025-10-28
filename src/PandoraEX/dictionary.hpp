@@ -265,7 +265,7 @@ namespace PandoraEX
             return new_enumerable;
         }
 
-        void forEach(Method<void> action) override
+        void foreach(Method<void> action) override
         {
             for (size_t i = 0; i < _keys.size(); i++)
             {

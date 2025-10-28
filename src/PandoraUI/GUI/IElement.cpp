@@ -62,11 +62,11 @@ Object* IElement::getParent() const
 void IElement::initialize()
 {
     // shaders.onItemAdded += [](Shader* const& shader) { shader->initialize(); };
-    // shaders.forEach([](Shader*& shader) {  shader->initialize(); });
+    // shaders.foreach([](Shader*& shader) {  shader->initialize(); });
 }
 
 void IElement::render()
 {
-    shaders.forEach([](Shader*& shader) { shader->use(); });
+    shaders.foreach([](Shader*& shader) { shader->use(); });
     shaders.validateRemovals();
 }
