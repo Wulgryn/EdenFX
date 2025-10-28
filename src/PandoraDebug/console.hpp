@@ -75,8 +75,25 @@ namespace PandoraDebug
         /// @brief Sets the precision of the debug console clock.
         /// @note The default precision is milliseconds.
         static DebugConsoleClockPrecision clockPrecision;
+        /// @brief Main prefix for all log messages.
+        /// @note This prefix will be included in all log messages.
         static std::string contextInfo;
+        /// @brief Surround characters for the main prefix.
+        /// @note Default characters are '[' and ']'.
+        static char contextInfoSurround[2];
+
+        /// @brief Prefix that will be added only to the next log message.
+        /// @note This prefix will be cleared after the next log message is printed.
         static std::string contextInfoOnce;
+
+        /// @brief Surround characters for the one-time prefix.
+        /// @note Default characters are '<' and '>'.
+        static char contextInfoOnceSurround[2];
+        /* ADD: padMiddleType
+         *+ *=================================ADD===================================
+         *+ * DESCRIPTION: [ERROR] info -> [ INFO] make the types the same size, and pad the middle with spaces
+         *+ *=======================================================================
+         *+ */
 #ifdef EDEN_DEBUG
         /// @brief Logs a message to the console and optionally to a file.
         /// @param message The message to log.
@@ -84,7 +101,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void log(const std::string &msg, Args... args)
         {
-            mf_log(Utils::format(contextInfoOnce == "" ? contextInfo + msg : contextInfoOnce + msg, std::forward<Args>(args)...));
+            mf_log(Utils::format((contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + msg, std::forward<Args>(args)...));
             if (contextInfoOnce != "")
                 contextInfoOnce = "";
         }
@@ -95,8 +112,7 @@ namespace PandoraDebug
         template <typename... Args>
         static void logError(const std::string &message, Args... args)
         {
-
-            mf_logError(Utils::format("[ERROR]" + (contextInfoOnce == "" ? contextInfo : contextInfoOnce) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logError(Utils::format("[ERROR]" + (contextInfoOnce == "" ? contextInfoSurround[0] + contextInfo + contextInfoSurround[1] : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
             if (contextInfoOnce != "")
                 contextInfoOnce = "";
         }
@@ -111,7 +127,9 @@ namespace PandoraDebug
             // '['; '<';
             // std::string m = (char)((((message[0] == '[' | message[0] == '<') & message[0] != ' ') & ' ') | (~((message[0] == '[' | message[0] == '<') & message[0] != ' ') & '\x01')) + message;
             // std::string m = (char)(~(~(message[0] ^ '[') - 1) & '[' | 1 - (message[0] == '[')) + message;
-            mf_logInfo(Utils::format("[INFO]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logInfo(Utils::format("[INFO]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a warning message to the console and optionally to a file.
@@ -120,7 +138,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logWarning(const std::string &message, Args... args)
         {
-            mf_logWarning(Utils::format("[WARNING]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logWarning(Utils::format("[WARNING]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a debug message to the console and optionally to a file.
@@ -129,7 +149,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logDebug(const std::string &message, Args... args)
         {
-            mf_logDebug(Utils::format("[DEBUG]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logDebug(Utils::format("[DEBUG]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a trace message to the console and optionally to a file.
@@ -138,7 +160,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logTrace(const std::string &message, Args... args)
         {
-            mf_logTrace(Utils::format("[TRACE]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logTrace(Utils::format("[TRACE]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a fatal error message to the console and optionally to a file.
@@ -147,7 +171,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logFatal(const std::string &message, Args... args)
         {
-            mf_logFatal(Utils::format("[FATAL]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logFatal(Utils::format("[FATAL]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a success message to the console and optionally to a file.
@@ -156,7 +182,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logSuccess(const std::string &message, Args... args)
         {
-            mf_logSuccess(Utils::format("[SUCCESS]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logSuccess(Utils::format("[SUCCESS]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a failure message to the console and optionally to a file.
@@ -165,7 +193,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logFailure(const std::string &message, Args... args)
         {
-            mf_logFailure(Utils::format("[FAILURE]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logFailure(Utils::format("[FAILURE]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs a critical message to the console and optionally to a file.
@@ -174,7 +204,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logCritical(const std::string &message, Args... args)
         {
-            mf_logCritical(Utils::format("[CRITICAL]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logCritical(Utils::format("[CRITICAL]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Logs an exception message to the console and optionally to a file.
@@ -183,7 +215,9 @@ namespace PandoraDebug
         template <typename... Args>
         static void logException(const std::string &message, Args... args)
         {
-            mf_logException(Utils::format("[EXCEPTION]" + contextInfoOnce == "" ? contextInfo : contextInfoOnce + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            mf_logException(Utils::format("[EXCEPTION]" + (contextInfoOnce == "" ? (contextInfo == "" ? "" : contextInfoSurround[0] + contextInfo + contextInfoSurround[1]) : contextInfoOnceSurround[0] + contextInfoOnce + contextInfoOnceSurround[1]) + (message[0] == '[' || message[0] == '<' || message[0] == ' ' ? message : ' ' + message), std::forward<Args>(args)...));
+            if (contextInfoOnce != "")
+                contextInfoOnce = "";
         }
 
         /// @brief Checks if the debug console is currently attached to a console.

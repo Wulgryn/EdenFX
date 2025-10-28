@@ -24,16 +24,13 @@ namespace std
 
 namespace PandoraEX
 {
-
-    template <class T>
-    bool operator==(const T &a, const T &b);
-    template <class T1, class T2>
-    bool operator==(const T1 &a, const T2 &b);
-
     template <class T>
     bool equals(const T &a, const T &b);
     template <class T1, class T2>
     bool equals(const T1 &a, const T2 &b);
+
+    template <class T>
+    std::uint64_t universal_hash(const T &);
 
     class Object
     {
@@ -64,11 +61,18 @@ namespace PandoraEX
         bool operator!=(const Object &other) const;
         bool equals(const Object &other) const;
 
-        template <class T>
-        bool operator==(const T &other) const
-        {
-            return PandoraEX::operator==(*this, other);
-        }
+        // template <class T>
+        // bool operator==(const T &other) const
+        // {
+        //     // return PandoraEX::operator==(*this, other);
+
+        //     // if constexpr (requires { { *this == other } -> std::convertible_to<bool>; })
+        //     // {
+        //     //     return *this == other || (PandoraEX::equals(*this, other) || PandoraEX::universal_hash(*this) == PandoraEX::universal_hash(other));
+        //     // }
+        //     return PandoraEX::equals(*this, other) || PandoraEX::universal_hash(*this) == PandoraEX::universal_hash(other);
+            
+        // }
 
         template <class T>
         bool operator!=(const T &other) const
@@ -87,12 +91,20 @@ namespace PandoraEX
     template <typename Object>
     concept ObjectType = std::derived_from<std::remove_cvref_t<Object>, Object>;
 
+#define __DEPAREN(X) __ESC(__ISH X)
+#define __ISH(...)   __ISH __VA_ARGS__
+#define __ESC(...)   __ESC_(__VA_ARGS__)
+#define __ESC_(...)  __VAN ## __VA_ARGS__
+#define __VAN__ISH   /* üres */
+
 /// @brief Macro to define a class that extends Object.
 /// @param className The name of the class.
-#define Class(...) class __VA_ARGS__ : public virtual PandoraEX::Object
+/// @param ... Optional base classes to extend first.
+#define Class(className, ...) class __DEPAREN(className) : __VA_ARGS__ __VA_OPT__(,) public virtual PandoraEX::Object
 /// @brief Macro to define a struct that extends Object.
 /// @param structName The name of the struct.
-#define Struct(...) struct __VA_ARGS__ : public virtual PandoraEX::Object
+/// @param ... Optional base classes to extend first.
+#define Struct(structName, ...) struct __DEPAREN(structName) : __VA_ARGS__ __VA_OPT__(,) public virtual PandoraEX::Object
     // #define extends(...) , ##__VA_ARGS__
 
 #define extends ,
@@ -398,27 +410,7 @@ namespace PandoraEX
         return static_cast<const void *>(std::addressof(a)) == static_cast<const void *>(std::addressof(b));
     }
 
-    /// @brief Compares two classes by their values (using universal_hash and equals).
-    /// @tparam T The type of the classes to compare.
-    /// @param a First class.
-    /// @param b Second class.
-    /// @return True if the classes are equal (byte-wise), false otherwise.
-    template <class T>
-    bool operator==(const T &a, const T &b)
-    {
-        return equals(a, b) || universal_hash(a) == universal_hash(b);
-    }
-
-    /// @brief Compares two classes by their values (using universal_hash and equals).
-    /// @tparam T The type of the classes to compare.
-    /// @param a First class.
-    /// @param b Second class.
-    /// @return True if the classes are equal (byte-wise), false otherwise.
-    template <class T1, class T2>
-    bool operator==(const T1 &a, const T2 &b)
-    {
-        return equals(a, b) || universal_hash(a) == universal_hash(b);
-    }
+    
 }
 
 #endif // PANDORAEX_OBJECT_HPP

@@ -7,8 +7,6 @@
 #include "PandoraEX/observableSize2.hpp"
 #include "PandoraUI/windowManager.hpp"
 
-#include "PandoraUI/windowOpts.hpp"
-
 
 class GLFWwindow;
 namespace std
@@ -50,15 +48,17 @@ namespace PandoraUI
         PandoraEX::ControlledEvent<IWindow, true, IWindow&> onUpdate;
         PandoraEX::ControlledEvent<IWindow, true, IWindow&> onLateUpdate;
 
+        PandoraEX::ControlledEvent<IWindow, true, IWindow&> onGladInitialize;
+
 
         IWindow();
         unsigned long long id() const { return _id; }
 
-        void initialize();
+        virtual void initialize();
 
-        void show();
-        void close();
-        void waitForExit();
+        virtual void show();
+        virtual void close();
+        virtual void waitForExit();
 
 
     };

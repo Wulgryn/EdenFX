@@ -49,7 +49,7 @@ std::strong_ordering Object::operator<=>(const Object &other) const {
 }
 
 bool Object::operator==(const Object &other) const {
-    return this == &other || (_id == other._id) || PandoraEX::operator==(*this, other);
+    return this == &other || (_id == other._id) || (PandoraEX::equals(*this, other) || universal_hash(*this) == universal_hash(other));
 }
 
 bool Object::operator!=(const Object &other) const {

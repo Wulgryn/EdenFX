@@ -15,12 +15,13 @@ std::atomic<unsigned long long> IWindow::s_nextID{0};
 IWindow::IWindow()
 {
     _id = s_nextID++;
+    WindowManager::s_currentWindowContext = _id;
     title = PandoraEX::String("EdenFX Window[" + std::to_string(_id) + "]");
     title.onChange.add([this](const PandoraEX::String &newValue, const PandoraEX::String &oldValue)
                        {
         if (!_glfWindow)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window title. GLFW window is null.");
             title.set(oldValue, false);
             return;
@@ -28,7 +29,7 @@ IWindow::IWindow()
 
         if(!_isInitialized)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window title. Window is not initialized.");
             title.set(oldValue, false);
             return;
@@ -39,7 +40,7 @@ IWindow::IWindow()
     {
         if (!_glfWindow)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window size. GLFW window is null.");
             size.width.set(oldValue, false);
             return;
@@ -47,7 +48,7 @@ IWindow::IWindow()
 
         if (!_isInitialized)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window size. Window is not initialized.");
             size.width.set(oldValue, false);
             return;
@@ -59,7 +60,7 @@ IWindow::IWindow()
     {
         if (!_glfWindow)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window size. GLFW window is null.");
             size.height.set(oldValue, false);
             return;
@@ -67,7 +68,7 @@ IWindow::IWindow()
 
         if (!_isInitialized)
         {
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("Cannot change window size. Window is not initialized.");
             size.height.set(oldValue, false);
             return;
@@ -82,7 +83,7 @@ IWindow::IWindow()
         {
 
             fps.set(oldValue, false);
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logWarning("FPS value cannot be less than 1. Setting to 1.");
         }
     };
@@ -96,11 +97,11 @@ void IWindow::initialize()
     if (!_glfWindow)
     {
         glfwTerminate();
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logFailure("Failed to create GLFW window");
         return;
     }
-    DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+    DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
     DC::logSuccess("GLFW window created successfully");
     glfwMakeContextCurrent(_glfWindow);
 
@@ -109,16 +110,19 @@ void IWindow::initialize()
         if (!gladLoadGL(glfwGetProcAddress))
         {
             glfwTerminate();
-            DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+            DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
             DC::logFailure("Failed to initialize GLAD");
             return;
         }
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        onGladInitialize.invoke(*this);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logSuccess("GLAD initialized successfully");
     }
     else
     {
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logInfo("GLAD already initialized");
     }
 
@@ -138,7 +142,7 @@ void IWindow::initialize()
 
 void IWindow::_update()
 {
-    if (fps > 0 && _lastFrameTime + 1.0 / fps > WindowManager::getCurrentFrameTime())
+    if ((fps > 0 && _lastFrameTime + 1.0 / fps > WindowManager::getCurrentFrameTime()) || glfwGetWindowAttrib(_glfWindow, GLFW_ICONIFIED))
         return;
     _lastFrameTime = WindowManager::getCurrentFrameTime();
     onUpdate.invoke(*this);
@@ -150,8 +154,8 @@ void IWindow::_render()
 {
     glfwMakeContextCurrent(_glfWindow);
     glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-    glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, size.width, size.height);
+    glClear(GL_COLOR_BUFFER_BIT);
     onRender.invoke(*this);
     render();
     onLateRender.invoke(*this);
@@ -165,7 +169,7 @@ void IWindow::_close()
     {
         glfwDestroyWindow(win._glfWindow);
         win._glfWindow = NULL;
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", win._id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", win._id);
         DC::logInfo("Window closed -> \"%s\"", win.title->c_str());
     };
 }
@@ -174,19 +178,19 @@ void IWindow::show()
 {
     if (!_glfWindow)
     {
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logFailure("Cannot open window. GLFW window is null.");
         return;
     }
 
     if (!_isInitialized)
     {
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logFailure("Cannot open window. Window is not initialized.");
         return;
     }
     glfwShowWindow(_glfWindow);
-    DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+    DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
     DC::logInfo("Window Showed. \"%s\"", title->c_str());
 }
 
@@ -194,16 +198,35 @@ void IWindow::close()
 {
     if (!_glfWindow)
     {
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logWarning("Cannot close window. GLFW window is already null.");
         return;
     }
     if (!_isInitialized)
     {
-        DC::contextInfoOnce = Utils::format("<IWindow[%llu]>", this->_id);
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
         DC::logWarning("Cannot close window. Window is not initialized.");
         return;
     }
 
     _close();
+}
+
+void IWindow::waitForExit()
+{
+    if (!_glfWindow)
+    {
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
+        DC::logWarning("Cannot wait for exit. GLFW window is already null.");
+        return;
+    }
+    if (!_isInitialized)
+    {
+        DC::contextInfoOnce = Utils::format("IWindow[%llu]", this->_id);
+        DC::logWarning("Cannot wait for exit. Window is not initialized.");
+        return;
+    }
+
+    while (!glfwWindowShouldClose(_glfWindow))
+        ;
 }

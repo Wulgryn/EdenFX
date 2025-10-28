@@ -146,6 +146,7 @@ namespace PandoraEX::Exceptions
 
     CreateException(InvalidOperationException, "This operation is invalid.")
     CreateException(DivideByZeroException, "Division by zero.")
+    CreateException(NullPointerException, "Null pointer exception.")
 }
 
 #endif // PANDORAEX_EXCEPTION_HPP

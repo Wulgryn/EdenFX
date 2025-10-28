@@ -18,8 +18,14 @@ namespace PandoraEX
     template <typename T, bool IsReadonly = false, class Owner = void>
     class Property;
 
+    /// @brief A template class representing a property with change notification.
+    /// @tparam T The type of the property value.
+    /// @tparam IsReadonly If true, the property is read-only and can only be set by the owner class.
+    /// @tparam Owner The class that owns this property. Required if IsReadonly is true.
+    /// @details This class provides a way to define properties that can notify listeners when their values change.
+    ///          If IsReadonly is true, the property can only be modified by the Owner class.
     template <typename T, class Owner>
-    class Property<T, false, Owner> : public virtual PandoraEX::Object
+    Class((Property<T, false, Owner>))
     {
         T _value;
 
@@ -39,14 +45,24 @@ namespace PandoraEX
 
         /// @brief Gets the current value of the property.
         /// @return The current value of the property.
-        T get() const { return _value; }
+        // T get() const { return _value; }
 
-        operator T()
-        {
-            return _value;
-        }
+        /// @brief Gets the current value of the property as a constant reference.
+        /// @return The current value of the property as a constant reference.
+        constexpr const T &get() const noexcept { return _value; }
 
-        T *operator->()
+        /// @brief Conversion operator to the property type.
+        /// @return The current value of the property.
+        // operator T()
+        // {
+        //     return _value;
+        // }
+
+        /// @brief Conversion operator to the property type as a constant reference.
+        /// @return The current value of the property as a constant reference.
+        constexpr operator const T &() const noexcept { return _value; }
+
+        std::remove_reference_t<std::remove_pointer_t<T>> *operator->()
         {
             return &_value;
         }
@@ -63,7 +79,7 @@ namespace PandoraEX
                 _value = value;
                 if (triggerEvent)
                     onChange.invoke(_value, oldValue);
-                    // onChange.invoke(_value, oldValue);
+                // onChange.invoke(_value, oldValue);
             }
         }
 
@@ -75,8 +91,20 @@ namespace PandoraEX
             set(value);
             return *this;
         }
+
+        Property &operator=(T &&v)
+        {
+            set(std::move(v));
+            return *this;
+        }
     };
 
+    /// @brief A template class representing a property with change notification.
+    /// @tparam T The type of the property value.
+    /// @tparam IsReadonly If true, the property is read-only and can only be set by the owner class.
+    /// @tparam Owner The class that owns this property. Required if IsReadonly is true.
+    /// @details This class provides a way to define properties that can notify listeners when their values change.
+    ///          If IsReadonly is true, the property can only be modified by the Owner class.
     template <typename T, class Owner>
     class Property<T, true, Owner> : public virtual PandoraEX::Object
     {

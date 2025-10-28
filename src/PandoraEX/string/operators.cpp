@@ -23,3 +23,13 @@ String &String::operator=(const String &str)
 // {
 //     return String(*this + std::to_string(str));
 // }
+
+bool String::operator==(const char *str) const
+{
+    return std::operator==(*this, str);
+}
+
+bool String::operator==(const String &str) const
+{
+    return std::operator==(*this, str);
+}

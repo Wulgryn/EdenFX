@@ -2,6 +2,8 @@
 #include "windowManager.hpp"
 #include "../PandoraDebug/console.hpp"
 
+#include "experimental/console/console_exit.hpp"
+
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "glad/gl.h"
@@ -63,6 +65,9 @@ InitStatus PandoraUI::initialize()
         return InitStatus(InitStatusCode::AlreadyInitialized, "PandoraUI is already initialized.");
     }
 
+    console_exit::install();
+    DC::logInfo("[EXPERIMENTAL] Console exit handler installed.");
+
     glfwSetErrorCallback(__glfw_error_callback);
     DC::logInfo(" GLFW error callback set.");
 
@@ -104,7 +109,6 @@ int PandoraUI::waitForExit(bool pauseOnExit)
     WindowManager::startFrameTimeUpdateThread();
     WindowManager::startUpdateLoop();
     glfwTerminate();
-
     DC::logInfo(" Exiting PandoraUI event loop.");
     if(!DC::isAttached()) DC::attach();
     if (pauseOnExit)

@@ -8,7 +8,8 @@
 #include "PandoraEX/object.hpp"
 #include "PandoraEX/IList.hpp"
 #include "PandoraEX/IEnumerable.hpp"
-#include "valueWrapper.hpp"
+#include "PandoraEX/compatibility/event.hpp"
+#include "PandoraEX/compatibility/utils.hpp"
 #include "exception.hpp"
 /* REVIEW: add with &&
  *$ *===============================REVIEW==================================
@@ -19,6 +20,7 @@
  *$ */
 namespace PandoraEX
 {
+
     template <class Type>
     Class(List) extends public IList<Type>, public IEnumerable<Type>
     {
@@ -28,10 +30,29 @@ namespace PandoraEX
         std::vector<Type> data_vec;
 
     public:
+        /* REVIEW: Move Events to IContainerEvent
+         *$ *===============================REVIEW==================================
+         *$ * WHY: Enhancement
+         *$ * DESCRIPTION: Place in own file to make it easier to use, and not bind to List
+         *$ *=======================================================================
+         *$ */
+
+        /// @brief Event that is triggered when an item is added to the list.
+        /// @param item The item that was added to the list. (const Type &)
+        Compatibility::ControlledEvent<List<Type>, true, std::conditional_t<std::is_pointer_v<Type>, Type, Type &>> onItemAdded;
+        /// @brief Event that is triggered when an item is removed from the list.
+        /// @param item The item that was removed from the list. (const Type &)
+        Compatibility::ControlledEvent<List<Type>, true, std::conditional_t<std::is_pointer_v<Type>, Type, Type &>> onItemRemoved;
+        /// @brief Event that is triggered when the list is cleared.
+        /// @note This event does not provide information about the items that were in the list before it was cleared.
+        Compatibility::ControlledEvent<List<Type>, true> onCleared;
+
         /// @brief Default constructor for List.
         /// @param size Initial size of the list. Default is 0.
         List(size_t size = 0)
         {
+            if constexpr (std::is_reference_v<Type>)
+                static_assert(!std::is_reference_v<Type>, "List cannot hold reference types.");
             data_vec.reserve(size);
         }
 
@@ -42,6 +63,10 @@ namespace PandoraEX
         virtual void add(const Type &item)
         {
             data_vec.push_back(item);
+            if constexpr (std::is_pointer_v<Type>)
+                this->onItemAdded.invoke(static_cast<Type>(data_vec.back()));
+            else
+                this->onItemAdded.invoke(data_vec.back());
         }
 
         /// @brief Finds the index of an item in the list.
@@ -51,13 +76,32 @@ namespace PandoraEX
         {
             for (size_t i = 0; i < data_vec.size(); i++)
             {
+                if constexpr (requires { {data_vec[i] == item} -> std::convertible_to<bool>; })
+                {
+                    if (data_vec[i] == item)
+                        return i;
+                }
+                // if constexpr (Utils::has_adl_eq<decltype(data_vec[i]), decltype(item)>)
+                // {
+                //     if (data_vec[i].operator==(item))
+                //         return i; // csak ha van hidden-friend/non-member ==
+                // }
                 if constexpr (std::is_base_of_v<PandoraEX::Object, std::remove_cvref_t<Type>> && !std::is_pointer_v<Type>)
                 {
                     if (static_cast<Object>(data_vec[i]) == static_cast<Object>(item))
                         return i;
                 }
-                else if (data_vec[i] == item)
-                    return i;
+                if constexpr (std::is_pointer_v<std::remove_cvref_t<Type>>)
+                {
+                    if (data_vec[i] == item)
+                        return i;
+                }
+                if constexpr (requires { { PandoraEX::Compatibility::Utils::operator==(data_vec[i], item) }
+                              -> std::convertible_to<bool>; })
+                {
+                    if (PandoraEX::Compatibility::Utils::operator==(data_vec[i], item))
+                        return i;
+                }
             }
             return -1;
         }
@@ -70,6 +114,7 @@ namespace PandoraEX
             size_t index = indexOf(item);
             if (index == (size_t)-1)
                 ThrowExceptionF(Exceptions::NotFoundException, "Item not found in list.");
+            this->onItemRemoved.invoke(data_vec[index]);
             data_vec.erase(data_vec.begin() + index);
         }
 
@@ -80,13 +125,27 @@ namespace PandoraEX
         {
             if (index >= data_vec.size())
                 ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
+            this->onItemRemoved.invoke(data_vec[index]);
             data_vec.erase(data_vec.begin() + index);
+        }
+
+        virtual void replaceAt(size_t index, const Type &item)
+        {
+            if (index >= data_vec.size())
+                ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
+            data_vec.erase(data_vec.begin() + index);
+            data_vec.insert(data_vec.begin() + index, item);
         }
 
         /// @brief Clears the list.
         virtual void clear()
         {
+            for (size_t i = 0; i < data_vec.size(); i++)
+            {
+                this->onItemRemoved.invoke(data_vec[i]);
+            }
             data_vec.clear();
+            this->onCleared.invoke();
         }
 
         /// @brief Checks if the list contains a specific item.
@@ -110,7 +169,7 @@ namespace PandoraEX
         /// @param index The index of the item to get from the list.
         /// @note If Type is a pointer, the returned value will be a pointer to the item. If Type is not a pointer, the returned value will be a reference to the item.
         /// @return A reference to the item at the specified index in the list.
-        const Type &operator[](size_t index) const
+        std::conditional_t<std::is_pointer_v<Type>, Type, const Type &> operator[](size_t index) const
         {
             if (index >= data_vec.size())
                 ThrowExceptionF(Exceptions::IndexOutOfBoundsException, "Index out of bounds. Got %d, expected 0-%d.", index, data_vec.size() - 1);
@@ -204,15 +263,51 @@ namespace PandoraEX
 
         List<Type> &sort(Method<bool> compare) override
         {
-            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b) { return compare.invoke(a, b); });
+            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b)
+                      { return compare.invoke(a, b); });
             return *this;
         }
 
         List<Type> &reverse(Method<bool> compare) override
         {
-            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b) { return compare.invoke(a, b); });
+            std::sort(data_vec.begin(), data_vec.end(), [&](Type a, Type b)
+                      { return compare.invoke(a, b); });
             std::reverse(data_vec.begin(), data_vec.end());
             return *this;
+        }
+
+        template <class NewType = IEnumerable<Type>>
+        NewType select(Method<Type> selector)
+        {
+            NewType new_list;
+            for (size_t i = 0; i < data_vec.size(); i++)
+            {
+                new_list.add(selector.invoke(data_vec[i]));
+            }
+            return new_list;
+        }
+
+        List<Type> &where(Method<bool> predicate) override
+        {
+            List<Type> new_list;
+            for (size_t i = 0; i < data_vec.size(); i++)
+            {
+                if (predicate.invoke(data_vec[i]))
+                    new_list.add(data_vec[i]);
+            }
+            *this = new_list;
+            return *this;
+        }
+
+        void forEach(Method<void> action) override
+        {
+            for (size_t i = 0; i < data_vec.size(); i++)
+            {
+                // if constexpr (std::is_pointer_v<Type>)
+                //     action.invoke(const_cast<Type>(data_vec[i]));
+                // else
+                action.invoke(data_vec[i]);
+            }
         }
 
         /// @brief Default destructor for List.

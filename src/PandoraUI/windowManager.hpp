@@ -6,13 +6,19 @@
 
 namespace PandoraUI
 {
+    /// @brief Forward declaration of IWindow class.
+    /// @warning Include "IWindow.hpp" for full definition when needed.
     class IWindow;
+
+
     /// @brief Manages all windows in the application.
     /// @details This class is responsible for registering, unregistering, and managing the lifecycle of windows.
     Class(WindowManager)
     {
+        friend class IWindow;
         static PandoraEX::AsyncList<std::reference_wrapper<IWindow>> windows;
         static double currentFrameTime;
+        static unsigned int s_currentWindowContext;
     public:
         /// @brief Registers a window with the WindowManager.
         /// @param window The window to register.
@@ -53,6 +59,10 @@ namespace PandoraUI
         /// @brief Gets the current frame time.
         /// @return The current frame time in milliseconds.
         static double getCurrentFrameTime();
+
+        /// @brief Gets the current window context.
+        /// @return The current window context ID.
+        static unsigned int getCurrentWindowContext();
 
     };
 }

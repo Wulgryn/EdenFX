@@ -1,6 +1,8 @@
 #include "windowManager.hpp"
 #include "IWindow.hpp"
 
+#include "experimental/console/console_exit.hpp"
+
 #include "GLFW/glfw3.h"
 
 #include <thread>
@@ -9,6 +11,7 @@ using namespace PandoraUI;
 
 PandoraEX::AsyncList<std::reference_wrapper<IWindow>> WindowManager::windows;
 double WindowManager::currentFrameTime = 0;
+unsigned int WindowManager::s_currentWindowContext = -1;
 IWindow& WindowManager::registerWindow(IWindow& window)
 {
     windows.add(window);
@@ -65,6 +68,7 @@ void WindowManager::startUpdateLoop()
     {
         for (int i = 0; i < getWindowCount(); i++)
         {
+            s_currentWindowContext = i;
             getWindow(i)._update();
             // if(getWindow(i)._isClosing) WindowManager::unregisterWindow(getWindow(i));
             // ThrowExceptionF(PandoraEX::Exceptions::NotImplementedException, "Window::update() is not implemented yet.");
@@ -82,4 +86,9 @@ int WindowManager::getWindowCount()
 double WindowManager::getCurrentFrameTime()
 {
     return currentFrameTime;
+}
+
+unsigned int WindowManager::getCurrentWindowContext()
+{
+    return s_currentWindowContext;
 }

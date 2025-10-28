@@ -1,0 +1,1316 @@
+// #include "PandoraUI/init.hpp"
+// #include "PandoraUI/window.hpp"
+// // #include "PandoraUI/windowManager.hpp"
+
+// int main( [[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
+// {
+//     PandoraUI::initialize();
+//     PandoraUI::Window window;
+//     window.initialize();
+
+//     PandoraUI::Window window1;
+//     window1.initialize();
+
+//     PandoraUI::Window window2;
+//     window2.initialize();
+
+//     // PandoraUI::WindowManager::closeAllWindows();
+
+//     return PandoraUI::waitForExit();
+// }
+
+// main.cpp
+// #include <cstdio>
+// #include <cstdlib>
+// #include <string>
+// #include <vector>
+// #include <iostream>
+
+// #include <glad/glad.h>      // vagy <glad/gl.h> ha nálad az van
+// #include <GLFW/glfw3.h>
+
+// // --- Shader források (stringek) ---
+// static const char* UI_VS = R"(#version 330 core
+// layout(location=0) in vec2 aUV;   // [0..1] unit quad
+
+// uniform vec2 uPos;                 // bal-felső px
+// uniform vec2 uSize;                // méret px
+// uniform vec2 uScreen;              // képernyő (w,h) px
+
+// out vec2 vLocal;                   // -size/2 .. +size/2
+
+// void main() {
+//     vec2 px = uPos + aUV * uSize; // képernyő px
+//     vLocal  = (aUV - 0.5) * uSize;
+
+//     // px -> NDC (top-left origin)
+//     vec2 ndc;
+//     ndc.x = (px.x / uScreen.x) * 2.0 - 1.0;
+//     ndc.y = 1.0 - (px.y / uScreen.y) * 2.0;
+
+//     gl_Position = vec4(ndc, 0.0, 1.0);
+// }
+// )";
+
+// static const char* UI_FS = R"(#version 330 core
+// in vec2 vLocal;
+// out vec4 FragColor;
+
+// uniform vec2  uSize;
+// uniform float uRadius;      // px
+// uniform float uBorder;      // px
+// uniform float uFeather;     // px (AA)
+// uniform vec4  uFillColor;   // RGBA
+// uniform vec4  uBorderColor; // RGBA
+
+// float sdRoundRect(vec2 p, vec2 halfSize, float r) {
+//     r = min(r, min(halfSize.x, halfSize.y));
+//     vec2 q = abs(p) - (halfSize - vec2(r));
+//     return length(max(q, 0.0)) - r;
+// }
+
+// void main() {
+//     vec2 halfSize = 0.5 * uSize;
+
+//     float dOuter = sdRoundRect(vLocal, halfSize, uRadius);
+
+//     float innerRadius = max(uRadius - uBorder, 0.0);
+//     vec2  innerHalf   = max(halfSize - vec2(uBorder), vec2(0.0));
+//     float dInner = sdRoundRect(vLocal, innerHalf, innerRadius);
+
+//     float aOuter = 1.0 - smoothstep(0.0, uFeather, dOuter);
+//     float aInner = 1.0 - smoothstep(0.0, uFeather, dInner);
+
+//     float borderAlpha = clamp(aOuter - aInner, 0.0, 1.0);
+//     float fillAlpha   = aInner;
+
+//     vec4 color = vec4(0.0);
+//     color = mix(color, uBorderColor, borderAlpha);
+//     color = mix(color, uFillColor,   fillAlpha);
+
+//     color.a = clamp(borderAlpha * uBorderColor.a + fillAlpha * uFillColor.a, 0.0, 1.0);
+
+//     if (color.a <= 0.001) discard;
+//     FragColor = color;
+// }
+// )";
+
+// // --- Shader segédfüggvények ---
+// GLuint compileShader(GLenum type, const char* src) {
+//     GLuint sh = glCreateShader(type);
+//     glShaderSource(sh, 1, &src, nullptr);
+//     glCompileShader(sh);
+//     GLint ok = GL_FALSE;
+//     glGetShaderiv(sh, GL_COMPILE_STATUS, &ok);
+//     if (!ok) {
+//         GLint len = 0;
+//         glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &len);
+//         std::string log(len, '\0');
+//         glGetShaderInfoLog(sh, len, nullptr, log.data());
+//         std::cerr << "[Shader compile error] " << log << std::endl;
+//         glDeleteShader(sh);
+//         return 0;
+//     }
+//     return sh;
+// }
+
+// GLuint linkProgram(GLuint vs, GLuint fs) {
+//     GLuint prg = glCreateProgram();
+//     glAttachShader(prg, vs);
+//     glAttachShader(prg, fs);
+//     glLinkProgram(prg);
+//     GLint ok = GL_FALSE;
+//     glGetProgramiv(prg, GL_LINK_STATUS, &ok);
+//     if (!ok) {
+//         GLint len = 0;
+//         glGetProgramiv(prg, GL_INFO_LOG_LENGTH, &len);
+//         std::string log(len, '\0');
+//         glGetProgramInfoLog(prg, len, nullptr, log.data());
+//         std::cerr << "[Program link error] " << log << std::endl;
+//         glDeleteProgram(prg);
+//         return 0;
+//     }
+//     // már nincs rájuk szükség a link után
+//     glDetachShader(prg, vs);
+//     glDetachShader(prg, fs);
+//     glDeleteShader(vs);
+//     glDeleteShader(fs);
+//     return prg;
+// }
+
+// // Framebuffer méret változás (HiDPI támogatás!)
+// static void framebuffer_size_callback(GLFWwindow* win, int w, int h) {
+//     glViewport(0, 0, w, h);
+// }
+
+// int main() {
+//     // 1) GLFW init + ablak létrehozás
+//     if (!glfwInit()) {
+//         std::cerr << "GLFW init failed\n";
+//         return 1;
+//     }
+//     // OpenGL 3.3 Core profil
+//     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+//     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+// #if __APPLE__
+//     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+// #endif
+
+//     int winW = 960, winH = 540;
+//     GLFWwindow* window = glfwCreateWindow(winW, winH, "UI SDF Demo", nullptr, nullptr);
+//     if (!window) {
+//         std::cerr << "GLFW window creation failed\n";
+//         glfwTerminate();
+//         return 1;
+//     }
+//     glfwMakeContextCurrent(window);
+//     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+//     glfwSwapInterval(1); // vsync
+
+//     // 2) GLAD betöltés (GL függvények címei)
+//     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+//         std::cerr << "GLAD load failed\n";
+//         glfwDestroyWindow(window);
+//         glfwTerminate();
+//         return 1;
+//     }
+
+//     // 3) Viewport beállítás (valódi framebuffer méret!)
+//     int fbW, fbH;
+//     glfwGetFramebufferSize(window, &fbW, &fbH);
+//     glViewport(0, 0, fbW, fbH);
+
+//     // 4) Shaderek fordítása + program link
+//     GLuint vs = compileShader(GL_VERTEX_SHADER, UI_VS);
+//     if (!vs) return 1;
+//     GLuint fs = compileShader(GL_FRAGMENT_SHADER, UI_FS);
+//     if (!fs) return 1;
+//     GLuint uiProgram = linkProgram(vs, fs);
+//     if (!uiProgram) return 1;
+
+//     // 5) Unit quad (VAO/VBO/EBO)
+//     //    aUV = (0,0) (1,0) (1,1) (0,1)
+//     float quad[] = {
+//         0.f, 0.f,   // v0
+//         1.f, 0.f,   // v1
+//         1.f, 1.f,   // v2
+//         0.f, 1.f    // v3
+//     };
+//     unsigned int idx[] = { 0,1,2,  0,2,3 };
+
+//     GLuint vao=0, vbo=0, ebo=0;
+//     glGenVertexArrays(1, &vao);
+//     glGenBuffers(1, &vbo);
+//     glGenBuffers(1, &ebo);
+
+//     glBindVertexArray(vao);
+
+//     // VBO: csúcsadatok (aUV)
+//     glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//     glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+
+//     // EBO: indexek
+//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
+
+//     // aUV attribútum (location=0, 2 float/vertex, nincs eltolás)
+//     glEnableVertexAttribArray(0);
+//     glVertexAttribPointer(
+//         0,                      // layout(location=0)
+//         2,                      // 2 komponens (u,v)
+//         GL_FLOAT,               // típus
+//         GL_FALSE,               // normalizálás
+//         2 * sizeof(float),      // stride (csak 2 float van)
+//         (void*)0                // offset
+//     );
+
+//     glBindVertexArray(0);
+
+//     // 6) Általános GL állapotok 2D UI-hoz
+//     glDisable(GL_DEPTH_TEST); // 2D-hez nem kell
+//     glDisable(GL_CULL_FACE);  // egyszerűség
+//     glEnable(GL_BLEND);
+//     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+//     // 7) Uniform location-ök
+//     GLint uPosLoc         = glGetUniformLocation(uiProgram, "uPos");
+//     GLint uSizeLoc        = glGetUniformLocation(uiProgram, "uSize");
+//     GLint uScreenLoc      = glGetUniformLocation(uiProgram, "uScreen");
+//     GLint uRadiusLoc      = glGetUniformLocation(uiProgram, "uRadius");
+//     GLint uBorderLoc      = glGetUniformLocation(uiProgram, "uBorder");
+//     GLint uFeatherLoc     = glGetUniformLocation(uiProgram, "uFeather");
+//     GLint uFillColorLoc   = glGetUniformLocation(uiProgram, "uFillColor");
+//     GLint uBorderColorLoc = glGetUniformLocation(uiProgram, "uBorderColor");
+
+//     // 8) Fő ciklus
+//     while (!glfwWindowShouldClose(window)) {
+//         // friss framebuffer méret (HiDPI + resize támogatás!)
+//         glfwGetFramebufferSize(window, &fbW, &fbH);
+
+//         // háttér törlése
+//         glClearColor(0.10f, 0.11f, 0.12f, 1.0f);
+//         glClear(GL_COLOR_BUFFER_BIT);
+
+//         // program + képernyő uniform
+//         glUseProgram(uiProgram);
+//         glUniform2f(uScreenLoc, (float)fbW, (float)fbH);
+
+//         glBindVertexArray(vao);
+
+//         // --- 1. UI elem: kék kártya fekete áttetsző borderrel ---
+//         glUniform2f(uPosLoc,   50.f, 40.f);        // bal-felső px
+//         glUniform2f(uSizeLoc,  260.f, 90.f);       // szélesség, magasság
+//         glUniform1f(uRadiusLoc, 14.f);             // sarok rádiusz
+//         glUniform1f(uBorderLoc, 2.0f);             // border vastagság
+//         glUniform1f(uFeatherLoc, 1.0f);            // AA "toll"
+//         glUniform4f(uFillColorLoc,   0.10f, 0.56f, 0.95f, 1.0f);  // kék
+//         glUniform4f(uBorderColorLoc, 0.00f, 0.00f, 0.00f, 0.35f); // fekete, áttetsző
+//         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+//         // --- 2. UI elem: shadow réteg + fehér kártya (két draw) ---
+//         // Shadow (külön réteg, kis eltolással, nagyobb rádiusz, nincs border)
+//         glUniform2f(uPosLoc,   360.f, 46.f);       // kicsit lejjebb
+//         glUniform2f(uSizeLoc,  260.f, 120.f);
+//         glUniform1f(uRadiusLoc, 18.f);
+//         glUniform1f(uBorderLoc, 0.0f);
+//         glUniform1f(uFeatherLoc, 1.0f);
+//         glUniform4f(uFillColorLoc,   0.0f, 0.0f, 0.0f, 0.25f);   // fekete árnyék
+//         glUniform4f(uBorderColorLoc, 0.0f, 0.0f, 0.0f, 0.0f);
+//         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+//         // Fő kártya (fehér, vékony szürke border)
+//         glUniform2f(uPosLoc,   360.f, 40.f);
+//         glUniform2f(uSizeLoc,  260.f, 120.f);
+//         glUniform1f(uRadiusLoc, 14.f);
+//         glUniform1f(uBorderLoc, 1.0f);
+//         glUniform1f(uFeatherLoc, 1.0f);
+//         glUniform4f(uFillColorLoc,   0.95f, 0.96f, 0.98f, 1.0f); // fehéres
+//         glUniform4f(uBorderColorLoc, 0.15f, 0.18f, 0.22f, 0.25f);// halvány szürke
+//         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+//         // --- 3. UI elem: "badge" border nélkül, nagy rádiusszal ---
+//         glUniform2f(uPosLoc,   50.f, 150.f);
+//         glUniform2f(uSizeLoc,  160.f, 42.f);
+//         glUniform1f(uRadiusLoc, 21.f);
+//         glUniform1f(uBorderLoc, 0.0f);
+//         glUniform1f(uFeatherLoc, 1.0f);
+//         // "Gradient" trükk: egyszerű világosítás (itt most csak másik színt adunk példának)
+//         glUniform4f(uFillColorLoc,   0.20f, 0.80f, 0.50f, 1.0f);
+//         glUniform4f(uBorderColorLoc, 0.0f,  0.0f,  0.0f,  0.0f);
+//         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+//         glBindVertexArray(0);
+//         glUseProgram(0);
+
+//         // buffer csere + események
+//         glfwSwapBuffers(window);
+//         glfwPollEvents();
+//     }
+
+//     // 9) Takarítás
+//     glDeleteVertexArrays(1, &vao);
+//     glDeleteBuffers(1, &vbo);
+//     glDeleteBuffers(1, &ebo);
+//     glDeleteProgram(uiProgram);
+
+//     glfwDestroyWindow(window);
+//     glfwTerminate();
+//     return 0;
+// }
+// main.cpp — Egyetlen fájlos példa
+// GLFW + GLAD + OpenGL 3.3 (GLM nélkül)
+// UI SDF háttér (kerek sarok, border, AA) + Kép/Ikon + Szöveg (bitmap atlasz)
+// -------------------------------------------------------------
+// Függőségek (egy fájlban maradunk, de ezeket a fejeket tedd mellé a projektedbe):
+//   - stb_image.h       (kép betöltéshez)
+//   - stb_truetype.h    (TTF → bitmap atlasz)
+// Letöltés: https://github.com/nothings/stb
+// Fordítás MSYS2 (ucrt64):
+//   g++ main.cpp -o ui.exe -lglfw -lopengl32 -lglad
+//   (Ha nálad a GLAD header-only, akkor -lglad helyett nem kell linkelni.)
+// Megjegyzés: Windows-on a GLAD telepítéstől függően lehet #include <glad/gl.h> helyes.
+// -------------------------------------------------------------
+
+// main.cpp — Egyetlen fájlos példa (UTF‑8 szöveg + kép/ikon + SDF UI)
+// GLFW + GLAD + OpenGL 3.3 (GLM nélkül)
+// - UI háttér: SDF kerek téglalap (lekerekítés, border, AA)
+// - Kép/Ikon: RGBA textúra
+// - Szöveg: UTF‑8 → Unicode, bitmap atlasz (ASCII + Latin‑1 + Latin Ext‑A → magyar ékezetek)
+//   (Összetett nyelvi shaping/liga NINCS; ahhoz HarfBuzz kellene.)
+// -------------------------------------------------------------------------------------------
+// Függőségek (tegyél a projekt mellé 2 headert):
+//   stb_image.h       – kép betöltéshez (PNG/JPG)
+//   stb_truetype.h    – TTF → bitmap atlasz
+// Letöltés: https://github.com/nothings/stb
+// Fordítás (MSYS2/ucrt64 példa):
+//   g++ main.cpp -o ui.exe -lglfw -lopengl32 -lglad
+//   (Ha a GLAD nálad header‑only, -lglad nem kell.)
+
+// main.cpp — Egyetlen fájlos példa
+// GLFW + GLAD + OpenGL 3.3 (GLM nélkül)
+// UI SDF háttér (kerek sarok, border, AA) + Kép/Ikon + Szöveg (bitmap atlasz)
+// -------------------------------------------------------------
+// Függőségek (egy fájlban maradunk, de ezeket a fejeket tedd mellé a projektedbe):
+//   - stb_image.h       (kép betöltéshez)
+//   - stb_truetype.h    (TTF → bitmap atlasz)
+// Letöltés: https://github.com/nothings/stb
+// Fordítás MSYS2 (ucrt64):
+//   g++ main.cpp -o ui.exe -lglfw -lopengl32 -lglad
+//   (Ha nálad a GLAD header-only, akkor -lglad helyett nem kell linkelni.)
+// Megjegyzés: Windows-on a GLAD telepítéstől függően lehet #include <glad/gl.h> helyes.
+// -------------------------------------------------------------
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstdint>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <unordered_map>
+
+#include <glad/glad.h> // vagy <glad/gl.h> ha nálad az az érvényes
+#include <GLFW/glfw3.h>
+
+// --- STB: egy fájlban tartjuk a fordítást, de a headernek ott kell lennie a fájl mellett ---
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "stb/stb_truetype.h"
+#include <unordered_set>
+
+// =============================================================================================
+// Shader források
+// =============================================================================================
+
+// UI háttér: vertex (px → NDC, top-left origó)
+static const char *UI_VS = R"(#version 330 core
+layout(location=0) in vec2 aUV;   // [0..1] unit quad
+
+uniform vec2 uPos;                 // bal-felső px
+uniform vec2 uSize;                // méret px
+uniform vec2 uScreen;              // framebuffer (w,h) px
+
+out vec2 vLocal;                   // -size/2 .. +size/2
+
+void main() {
+    vec2 px = uPos + aUV * uSize; // képernyő px
+    vLocal  = (aUV - 0.5) * uSize;
+
+    vec2 ndc;
+    ndc.x = (px.x / uScreen.x) * 2.0 - 1.0;
+    ndc.y = 1.0 - (px.y / uScreen.y) * 2.0;
+    gl_Position = vec4(ndc, 0.0, 1.0);
+}
+)";
+
+// UI háttér: fragment (SDF kerek téglalap + border + AA)
+static const char *UI_FS = R"(#version 330 core
+in vec2 vLocal;
+out vec4 FragColor;
+
+uniform vec2  uSize;
+uniform float uRadius;      // px
+uniform float uBorder;      // px
+uniform float uFeather;     // px (AA)
+uniform vec4  uFillColor;   // RGBA
+uniform vec4  uBorderColor; // RGBA
+
+float sdRoundRect(vec2 p, vec2 halfSize, float r) {
+    r = min(r, min(halfSize.x, halfSize.y));
+    vec2 q = abs(p) - (halfSize - vec2(r));
+    return length(max(q, 0.0)) - r;
+}
+
+void main() {
+    vec2 halfSize = 0.5 * uSize;
+
+    float dOuter = sdRoundRect(vLocal, halfSize, uRadius);
+
+    float innerRadius = max(uRadius - uBorder, 0.0);
+    vec2  innerHalf   = max(halfSize - vec2(uBorder), vec2(0.0));
+    float dInner = sdRoundRect(vLocal, innerHalf, innerRadius);
+
+    float aOuter = 1.0 - smoothstep(0.0, uFeather, dOuter);
+    float aInner = 1.0 - smoothstep(0.0, uFeather, dInner);
+
+    float borderAlpha = clamp(aOuter - aInner, 0.0, 1.0);
+    float fillAlpha   = aInner;
+
+    vec4 color = vec4(0.0);
+    color = mix(color, uBorderColor, borderAlpha);
+    color = mix(color, uFillColor,   fillAlpha);
+    color.a = clamp(borderAlpha * uBorderColor.a + fillAlpha * uFillColor.a, 0.0, 1.0);
+
+    if (color.a <= 0.001) discard;
+    FragColor = color;
+}
+)";
+
+// Textúrázott quad (kép/ikon/szöveg): vertex
+static const char *TEX_VS = R"(#version 330 core
+layout(location=0) in vec2 aPosPx;  // képpont pozíció (bal-felső origó)
+layout(location=1) in vec2 aUV;     // 0..1
+
+uniform vec2 uScreen;               // framebuffer méret (w,h) px
+uniform int  uFlipV;                // 0 = ne tükrözz, 1 = V tengely tükrözés
+
+out vec2 vUV;
+out vec2 vPosPx;                    // clippinghez
+
+void main() {
+    vUV   = (uFlipV != 0) ? vec2(aUV.x, 1.0 - aUV.y) : aUV;
+    vPosPx = aPosPx;
+
+    vec2 ndc;
+    ndc.x = (aPosPx.x / uScreen.x) * 2.0 - 1.0;
+    ndc.y = 1.0 - (aPosPx.y / uScreen.y) * 2.0;
+    gl_Position = vec4(ndc, 0.0, 1.0);
+}
+)";
+
+// Textúrázott quad (kép/ikon/szöveg): fragment + opcionális kerek clip
+static const char *TEX_FS = R"(#version 330 core
+in vec2 vUV;
+in vec2 vPosPx;
+out vec4 FragColor;
+
+uniform sampler2D uTex;
+uniform int   uHasTex;        // 0=nincs textúra → csak uTint
+uniform int   uIsSDF;         // 0=bitmap (kép/font), 1=SDF font
+uniform vec4  uTint;          // kép: színezés; szöveg: betűszín
+
+uniform int   uUseClip;       // 1=clip kerek téglalapba
+uniform vec2  uClipPos;       // clip bal-felső px
+uniform vec2  uClipSize;      // clip méret px
+uniform float uClipRadius;    // clip rádiusz px
+uniform float uClipFeather;   // AA px (pl. 1.0)
+
+float sdRoundRect(vec2 p, vec2 halfSize, float r) {
+    r = min(r, min(halfSize.x, halfSize.y));
+    vec2 q = abs(p) - (halfSize - vec2(r));
+    return length(max(q, 0.0)) - r;
+}
+
+void main() {
+    vec4 color = uTint;
+
+    if (uHasTex != 0) {
+        vec4 texel = texture(uTex, vUV);
+        if (uIsSDF != 0) {
+            float sd = texel.r;
+            float w  = fwidth(sd);
+            float alpha = smoothstep(0.5 - w, 0.5 + w, sd);
+            color = vec4(uTint.rgb, uTint.a * alpha);
+        } else {
+            color = texel * uTint;
+        }
+    }
+
+    if (uUseClip != 0) {
+        vec2 center   = uClipPos + 0.5 * uClipSize;
+        vec2 halfSize = 0.5 * uClipSize;
+        float d = sdRoundRect(vPosPx - center, halfSize, uClipRadius);
+        float a = 1.0 - smoothstep(0.0, uClipFeather, d);
+        color.a *= a;
+    }
+
+    if (color.a <= 0.001) discard;
+    FragColor = color;
+}
+)";
+
+// =============================================================================================
+// Segédfüggvények: shader fordítás/linkelés
+// =============================================================================================
+
+static GLuint compileShader(GLenum type, const char *src)
+{
+    GLuint sh = glCreateShader(type);
+    glShaderSource(sh, 1, &src, nullptr);
+    glCompileShader(sh);
+    GLint ok = GL_FALSE;
+    glGetShaderiv(sh, GL_COMPILE_STATUS, &ok);
+    if (!ok)
+    {
+        GLint len = 0;
+        glGetShaderiv(sh, GL_INFO_LOG_LENGTH, &len);
+        std::string log(len, '\0');
+        glGetShaderInfoLog(sh, len, nullptr, log.data());
+        std::cerr << "[Shader compile error]\n"
+                  << log << std::endl;
+        glDeleteShader(sh);
+        return 0;
+    }
+    return sh;
+}
+
+static GLuint linkProgram(GLuint vs, GLuint fs)
+{
+    GLuint prg = glCreateProgram();
+    glAttachShader(prg, vs);
+    glAttachShader(prg, fs);
+    glLinkProgram(prg);
+    GLint ok = GL_FALSE;
+    glGetProgramiv(prg, GL_LINK_STATUS, &ok);
+    if (!ok)
+    {
+        GLint len = 0;
+        glGetProgramiv(prg, GL_INFO_LOG_LENGTH, &len);
+        std::string log(len, '\0');
+        glGetProgramInfoLog(prg, len, nullptr, log.data());
+        std::cerr << "[Program link error]\n"
+                  << log << std::endl;
+        glDeleteProgram(prg);
+        return 0;
+    }
+    glDetachShader(prg, vs);
+    glDetachShader(prg, fs);
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+    return prg;
+}
+
+// =============================================================================================
+// Képtöltés (stb_image)
+// =============================================================================================
+
+struct Texture
+{
+    GLuint id = 0;
+    int w = 0, h = 0, comp = 0;
+};
+
+static Texture loadImageTexture(const char *path, bool genMips = true, bool flipY = true)
+{
+    Texture t{};
+    stbi_set_flip_vertically_on_load(flipY);
+    unsigned char *pixels = stbi_load(path, &t.w, &t.h, &t.comp, 4);
+    if (!pixels)
+    {
+        std::cerr << "[WARN] Nem talalhato kep: " << path << "\n";
+        return t;
+    }
+    glGenTextures(1, &t.id);
+    glBindTexture(GL_TEXTURE_2D, t.id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, t.w, t.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    if (genMips)
+    {
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    stbi_image_free(pixels);
+    return t;
+}
+
+// =============================================================================================
+// Bitmap font atlasz (stb_truetype → GL_RED + alpha swizzle)
+// =============================================================================================
+struct Range
+{
+    int first, count, offset;
+};
+struct FontAtlas
+{
+    GLuint tex = 0;
+    int w = 0, h = 0;
+    float ascent = 0, descent = 0, lineGap = 0, pixelHeight = 0;
+    stbtt_fontinfo info{};
+    float baseScale = 0.0f;
+
+    std::vector<unsigned char> ttfBytes;       // TTF életben tartása
+    std::vector<stbtt_packedchar> chars;       // chardata (explicit lista méretében)
+    std::vector<int> codepoints;               // kirajzolható kódpontok
+    std::unordered_map<uint32_t, int> cpToIdx; // cp -> index (chars-hoz)
+};
+
+static FontAtlas loadFontAtlas(const char *ttfPath, float pixelHeight,
+                               int atlasW = 1024, int atlasH = 1024)
+{
+    FontAtlas fa{};
+    fa.w = atlasW;
+    fa.h = atlasH;
+    fa.pixelHeight = pixelHeight;
+
+    // TTF beolvasás
+    std::ifstream ifs(ttfPath, std::ios::binary);
+    if (!ifs)
+    {
+        std::cerr << "[WARN] Nem talalhato TTF: " << ttfPath << "\n";
+        return fa;
+    }
+    std::vector<unsigned char> ttf((std::istreambuf_iterator<char>(ifs)), {});
+
+    std::vector<unsigned char> pixels(fa.w * fa.h, 0);
+
+    stbtt_pack_context pc;
+    stbtt_PackBegin(&pc, pixels.data(), fa.w, fa.h, 0, 1, nullptr);
+    stbtt_PackSetOversampling(&pc, 2, 2);
+
+    stbtt_pack_range range{};
+    range.first_unicode_codepoint_in_range = 32; // space
+    range.num_chars = 95;                        // 32..126
+    range.array_of_unicode_codepoints = nullptr;
+    range.chardata_for_range = fa.chars.data();
+    range.font_size = pixelHeight;
+
+    stbtt_PackFontRanges(&pc, ttf.data(), 0, &range, 1);
+    stbtt_PackEnd(&pc);
+
+    stbtt_fontinfo info;
+    stbtt_InitFont(&info, ttf.data(), stbtt_GetFontOffsetForIndex(ttf.data(), 0));
+    float scale = stbtt_ScaleForPixelHeight(&info, pixelHeight);
+    int a = 0, d = 0, g = 0;
+    stbtt_GetFontVMetrics(&info, &a, &d, &g);
+    fa.ascent = a * scale;
+    fa.descent = d * scale;
+    fa.lineGap = g * scale;
+
+    glGenTextures(1, &fa.tex);
+    glBindTexture(GL_TEXTURE_2D, fa.tex);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, fa.w, fa.h, 0, GL_RED, GL_UNSIGNED_BYTE, pixels.data());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLint swz[4] = {GL_ONE, GL_ONE, GL_ONE, GL_RED}; // r→alpha
+    glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swz);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return fa;
+}
+
+// =============================================================================================
+// Dinamikus "textured quad" mesh (poz px + UV)
+// =============================================================================================
+
+struct TexMesh
+{
+    GLuint vao = 0, vbo = 0;
+    void init(size_t maxBytes = 1 << 20)
+    {
+        glGenVertexArrays(1, &vao);
+        glGenBuffers(1, &vbo);
+        glBindVertexArray(vao);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, maxBytes, nullptr, GL_DYNAMIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+        glBindVertexArray(0);
+    }
+};
+
+static inline void pushQuad(std::vector<float> &v,
+                            float x0, float y0, float x1, float y1,
+                            float u0, float v0, float u1, float v1)
+{
+    const float tmp[] = {
+        x0, y0, u0, v0, x1, y0, u1, v0, x1, y1, u1, v1,
+        x0, y0, u0, v0, x1, y1, u1, v1, x0, y1, u0, v1};
+    v.insert(v.end(), std::begin(tmp), std::end(tmp));
+}
+
+// =============================================================================================
+// Szöveg mesh (bitmap atlasz, ASCII 32..126)
+// =============================================================================================
+
+// static void buildTextMesh(const FontAtlas& fa, const char* text,
+//                           float x, float y, float desiredSizePx,
+//                           std::vector<float>& outVerts) {
+//     if (!fa.tex) return; // nincs atlasz
+//     float scale = desiredSizePx / fa.pixelHeight;
+
+//     float penX = x;
+//     float penY = y + fa.ascent * scale; // baseline
+
+//     for (const char* p = text; *p; ++p) {
+//         unsigned c = (unsigned char)*p;
+//         if (c == '\n') {
+//             penX = x;
+//             penY += (fa.ascent - fa.descent + fa.lineGap) * scale;
+//             continue;
+//         }
+//         if (c < 32 || c > 126) continue; // ASCII tartomány
+
+//         const stbtt_packedchar& pc = fa.chars[c - 32];
+
+//         float tx = penX, ty = penY;
+//         stbtt_aligned_quad q; stbtt_GetPackedQuad(fa.chars, fa.w, fa.h, c - 32, &tx, &ty, &q, 1);
+
+//         float lx0 = (q.x0 - penX) * scale;
+//         float ly0 = (q.y0 - penY) * scale;
+//         float lx1 = (q.x1 - penX) * scale;
+//         float ly1 = (q.y1 - penY) * scale;
+
+//         float x0 = penX + lx0;
+//         float y0 = penY + ly0;
+//         float x1 = penX + lx1;
+//         float y1 = penY + ly1;
+
+//         pushQuad(outVerts, x0,y0,x1,y1, q.s0,q.t0, q.s1,q.t1);
+//         penX += pc.xadvance * scale;
+//     }
+// }
+
+// =============================================================================================
+// Szöveg mesh (bitmap atlasz, UTF8)
+// =============================================================================================
+
+// --- 1) UTF-8 dekóder (egyszerű, LTR szöveghez elég) ---
+static inline bool utf8_next(const char *&s, uint32_t &cp)
+{
+    const unsigned char *p = (const unsigned char *)s;
+    if (!*p)
+        return false;
+    if (*p < 0x80)
+    {
+        cp = *p;
+        s = (const char *)(p + 1);
+        return true;
+    }
+    if ((*p & 0xE0) == 0xC0 && (p[1] & 0xC0) == 0x80)
+    {
+        cp = ((p[0] & 0x1F) << 6) | (p[1] & 0x3F);
+        s = (const char *)(p + 2);
+        return true;
+    }
+    if ((*p & 0xF0) == 0xE0 && (p[1] & 0xC0) == 0x80 && (p[2] & 0xC0) == 0x80)
+    {
+        cp = ((p[0] & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
+        s = (const char *)(p + 3);
+        return true;
+    }
+    if ((*p & 0xF8) == 0xF0 && (p[1] & 0xC0) == 0x80 && (p[2] & 0xC0) == 0x80 && (p[3] & 0xC0) == 0x80)
+    {
+        cp = ((p[0] & 0x07) << 18) | ((p[1] & 0x3F) << 12) | ((p[2] & 0x3F) << 6) | (p[3] & 0x3F);
+        s = (const char *)(p + 4);
+        return true;
+    }
+    return false; // hibás szekvencia
+}
+
+// --- 2) Tartomány-kereső a betűatlaszhoz ---
+// Elvárás: FontAtlas::ranges = { {32,95,0}, {160,96,95}, {256,128,191}, ... }
+// és FontAtlas::chars egy összefűzött tömb (stbtt_packedchar) ezekhez az offsetekhez.
+
+static inline int findRangeIndex(const std::vector<Range> &ranges, uint32_t cp)
+{
+    for (size_t i = 0; i < ranges.size(); ++i)
+    {
+        uint32_t first = (uint32_t)ranges[i].first;
+        uint32_t last = first + (uint32_t)ranges[i].count; // exclusive
+        if (cp >= first && cp < last)
+            return (int)i;
+    }
+    return -1;
+}
+// ---------- 2) Kis segéd ----------
+static inline bool fileExists(const char *p)
+{
+    std::ifstream f(p, std::ios::binary);
+    return (bool)f;
+}
+
+static std::vector<int> codepointsFromUTF8(const char *s)
+{
+    std::unordered_set<int> set;
+    const char *p = s;
+    uint32_t cp;
+    while (utf8_next(p, cp))
+    {
+        if (cp != '\n')
+            set.insert((int)cp);
+    }
+    // + ASCII 32..126: hogy mindig legyen alap
+    for (int c = 32; c <= 126; ++c)
+        set.insert(c);
+    return std::vector<int>(set.begin(), set.end());
+}
+
+static FontAtlas loadFontAtlasByCodepoints(const char *ttfPath, float pixelHeight,
+                                           const std::vector<int> &cps,
+                                           int atlasW = 1024, int atlasH = 1024,
+                                           int overX = 1, int overY = 1, int padding = 1)
+{
+    FontAtlas fa{};
+    fa.w = atlasW;
+    fa.h = atlasH;
+    fa.pixelHeight = pixelHeight;
+
+    // TTF -> atlaszban tároljuk
+    if (!ttfPath || !fileExists(ttfPath))
+    {
+        std::cerr << "[ERR] Nincs TTF: " << (ttfPath ? ttfPath : "<null>") << "\n";
+        return fa;
+    }
+    std::ifstream ifs(ttfPath, std::ios::binary);
+    fa.ttfBytes.assign(std::istreambuf_iterator<char>(ifs), {});
+    if (fa.ttfBytes.empty())
+    {
+        std::cerr << "[ERR] Üres TTF\n";
+        return fa;
+    }
+
+    // chardata mérete = cps.size()
+    fa.codepoints = cps;
+    fa.chars.resize(fa.codepoints.size());
+    fa.cpToIdx.clear();
+    for (size_t i = 0; i < fa.codepoints.size(); ++i)
+        fa.cpToIdx[(uint32_t)fa.codepoints[i]] = (int)i;
+
+    // pack (több próbálkozás: 1024 -> 2048, oversampling 1x/2x)
+    GLint maxTex = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTex);
+    int sizes[] = {std::min(atlasW, maxTex > 0 ? maxTex : atlasW), std::min(2048, maxTex > 0 ? maxTex : 2048)};
+    int ov[][2] = {{overX, overY}, {2, 2}};
+
+    std::vector<unsigned char> pixels;
+    bool ok = false;
+
+    for (int si = 0; si < 2 && !ok; ++si)
+    {
+        fa.w = fa.h = sizes[si];
+        pixels.assign(fa.w * fa.h, 0);
+
+        stbtt_pack_context pc;
+        if (!stbtt_PackBegin(&pc, pixels.data(), fa.w, fa.h, 0, padding, nullptr))
+            continue;
+        stbtt_PackSetOversampling(&pc, ov[si][0], ov[si][1]);
+
+        stbtt_pack_range pr{};
+        pr.first_unicode_codepoint_in_range = 0; // kötelező 0, ha listát adunk
+        pr.array_of_unicode_codepoints = (int *)fa.codepoints.data();
+        pr.num_chars = (int)fa.codepoints.size();
+        pr.chardata_for_range = fa.chars.data();
+        pr.font_size = pixelHeight;
+
+        if (stbtt_PackFontRanges(&pc, fa.ttfBytes.data(), 0, &pr, 1))
+            ok = true;
+        stbtt_PackEnd(&pc);
+    }
+    if (!ok)
+    {
+        std::cerr << "[ERR] PackFontRanges failed (még mindig túl sok karakter vagy túl nagy méret)\n";
+        return fa;
+    }
+
+    // metrikák
+    if (!stbtt_InitFont(&fa.info, fa.ttfBytes.data(),
+                        stbtt_GetFontOffsetForIndex(fa.ttfBytes.data(), 0)))
+    {
+        std::cerr << "[ERR] InitFont failed\n";
+        return fa;
+    }
+    fa.baseScale = stbtt_ScaleForPixelHeight(&fa.info, pixelHeight);
+    int a = 0, d = 0, g = 0;
+    stbtt_GetFontVMetrics(&fa.info, &a, &d, &g);
+    fa.ascent = a * fa.baseScale;
+    fa.descent = d * fa.baseScale;
+    fa.lineGap = g * fa.baseScale;
+
+    // GL_RED textúra (R->A swizzle)
+    glGenTextures(1, &fa.tex);
+    glBindTexture(GL_TEXTURE_2D, fa.tex);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, fa.w, fa.h, 0, GL_RED, GL_UNSIGNED_BYTE, pixels.data());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLint swz[4] = {GL_ONE, GL_ONE, GL_ONE, GL_RED};
+    glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swz);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return fa;
+}
+
+// --- 3) UTF-8 szöveg építése (kerninggel) ---
+// DROP-IN: hívd ezt a régi buildTextMesh helyett.
+static void buildTextMeshUTF8(const FontAtlas &fa, const char *textUTF8,
+                              float x, float y, float desiredSizePx,
+                              std::vector<float> &out)
+{
+    if (!fa.tex)
+        return;
+    float scale = desiredSizePx / fa.pixelHeight;
+    float penX = x, penY = y + fa.ascent * scale;
+
+    const char *p = textUTF8;
+    uint32_t prev = 0;
+    bool havePrev = false;
+    while (*p)
+    {
+        uint32_t cp = 0;
+        if (!utf8_next(p, cp))
+            break;
+        if (cp == '\n')
+        {
+            penX = x;
+            penY += (fa.ascent - fa.descent + fa.lineGap) * scale;
+            havePrev = false;
+            continue;
+        }
+
+        auto it = fa.cpToIdx.find(cp);
+        if (it == fa.cpToIdx.end())
+        { // fallback '?'
+            it = fa.cpToIdx.find('?');
+            if (it == fa.cpToIdx.end())
+                continue;
+        }
+        int idx = it->second;
+
+        if (havePrev)
+        {
+            int kern = stbtt_GetCodepointKernAdvance(&fa.info, (int)prev, (int)cp);
+            if (kern)
+                penX += (kern * fa.baseScale) * scale;
+        }
+
+        float tx = penX, ty = penY;
+        stbtt_aligned_quad q;
+        stbtt_GetPackedQuad(fa.chars.data(), fa.w, fa.h, idx, &tx, &ty, &q, 1);
+
+        float lx0 = (q.x0 - penX) * scale, ly0 = (q.y0 - penY) * scale;
+        float lx1 = (q.x1 - penX) * scale, ly1 = (q.y1 - penY) * scale;
+        float x0 = penX + lx0, y0 = penY + ly0, x1 = penX + lx1, y1 = penY + ly1;
+
+        pushQuad(out, x0, y0, x1, y1, q.s0, q.t0, q.s1, q.t1);
+
+        const stbtt_packedchar &pc = fa.chars[idx];
+        penX += pc.xadvance * scale;
+        prev = cp;
+        havePrev = true;
+    }
+}
+
+// ---------- 3) UTF-8 képes atlasz betöltő (ASCII + Latin-1 + Latin Ext-A) ----------
+// +++ loadFontAtlasUTF8(...) fontos részei +++
+// static FontAtlas loadFontAtlasUTF8(const char* ttfPath, float pixelHeight,
+//                                    int atlasW=1024, int atlasH=1024)
+// {
+//     FontAtlas fa{}; fa.w=atlasW; fa.h=atlasH; fa.pixelHeight=pixelHeight;
+
+//     // 1) TTF beolvasás és ELTÁROLÁS az atlaszban
+//     std::ifstream ifs(ttfPath, std::ios::binary);
+//     if (!ifs) { std::cerr << "[ERR] Nem tudom megnyitni a TTF-et\n"; return fa; }
+//     fa.ttfBytes.assign(std::istreambuf_iterator<char>(ifs), {});
+//     if (fa.ttfBytes.empty()) { std::cerr << "[ERR] Üres TTF\n"; return fa; }
+
+//     // 2) Ranges + chars (mint eddig)
+//     fa.ranges = { {32,95,0}, {160,96,95}, {256,128,95+96} };
+//     fa.chars.resize(95+96+128);
+
+//     // 3) Pack – FIGYELEM: fa.ttfBytes.data() megy be!
+//     std::vector<unsigned char> pixels(fa.w * fa.h, 0);
+//     stbtt_pack_context pc;
+//     stbtt_PackBegin(&pc, pixels.data(), fa.w, fa.h, 0, 1, nullptr);
+//     stbtt_PackSetOversampling(&pc, 2, 2);
+
+//     std::vector<stbtt_pack_range> prs(fa.ranges.size());
+//     for (size_t i=0;i<fa.ranges.size();++i) {
+//         prs[i].first_unicode_codepoint_in_range = fa.ranges[i].first;
+//         prs[i].num_chars = fa.ranges[i].count;
+//         prs[i].array_of_unicode_codepoints = nullptr;
+//         prs[i].chardata_for_range = fa.chars.data() + fa.ranges[i].offset;
+//         prs[i].font_size = pixelHeight;
+//     }
+//     if (!stbtt_PackFontRanges(&pc, fa.ttfBytes.data(), 0, prs.data(), (int)prs.size())) {
+//         std::cerr << "[ERR] PackFontRanges failed\n";
+//         stbtt_PackEnd(&pc); return fa;
+//     }
+//     stbtt_PackEnd(&pc);
+
+//     // 4) Font init – ISMÉT az atlaszban lévő bufferrel!
+//     if (!stbtt_InitFont(&fa.info, fa.ttfBytes.data(),
+//                         stbtt_GetFontOffsetForIndex(fa.ttfBytes.data(), 0))) {
+//         std::cerr << "[ERR] InitFont failed\n"; return fa;
+//     }
+//     fa.baseScale = stbtt_ScaleForPixelHeight(&fa.info, pixelHeight);
+//     int a=0,d=0,g=0; stbtt_GetFontVMetrics(&fa.info,&a,&d,&g);
+//     fa.ascent=a*fa.baseScale; fa.descent=d*fa.baseScale; fa.lineGap=g*fa.baseScale;
+
+//     // 5) GL RED textúra feltöltés (mint eddig)
+//     glGenTextures(1,&fa.tex); glBindTexture(GL_TEXTURE_2D, fa.tex);
+//     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+//     glTexImage2D(GL_TEXTURE_2D,0,GL_R8,fa.w,fa.h,0,GL_RED,GL_UNSIGNED_BYTE,pixels.data());
+//     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+//     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+//     GLint swz[4]={GL_ONE,GL_ONE,GL_ONE,GL_RED};
+//     glTexParameteriv(GL_TEXTURE_2D,GL_TEXTURE_SWIZZLE_RGBA,swz);
+//     glBindTexture(GL_TEXTURE_2D,0);
+
+//     return fa;
+// }
+
+// =============================================================================================
+// GLFW callback: viewport frissítése
+// =============================================================================================
+
+static void framebuffer_size_callback(GLFWwindow *, int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
+
+// =============================================================================================
+// Belépési pont
+// =============================================================================================
+
+int main()
+{
+    // --- GLFW init + ablak ---
+    if (!glfwInit())
+    {
+        std::cerr << "GLFW init failed\n";
+        return 1;
+    }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#if __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+    int winW = 960, winH = 540;
+    GLFWwindow *window = glfwCreateWindow(winW, winH, "UI SDF + Image + Text", nullptr, nullptr);
+    if (!window)
+    {
+        std::cerr << "Window creation failed\n";
+        glfwTerminate();
+        return 1;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSwapInterval(1); // vsync
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cerr << "GLAD load failed\n";
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return 1;
+    }
+
+    int fbW = 0, fbH = 0;
+    glfwGetFramebufferSize(window, &fbW, &fbH);
+    glViewport(0, 0, fbW, fbH);
+
+    // --- Programok ---
+    GLuint uiVS = compileShader(GL_VERTEX_SHADER, UI_VS);
+    GLuint uiFS = compileShader(GL_FRAGMENT_SHADER, UI_FS);
+    GLuint uiProgram = linkProgram(uiVS, uiFS);
+
+    GLuint txVS = compileShader(GL_VERTEX_SHADER, TEX_VS);
+    GLuint txFS = compileShader(GL_FRAGMENT_SHADER, TEX_FS);
+    GLuint texProgram = linkProgram(txVS, txFS);
+
+    // sampler binding (uTex → unit 0)
+    glUseProgram(texProgram);
+    GLint t_uTex = glGetUniformLocation(texProgram, "uTex");
+    glUniform1i(t_uTex, 0);
+    glUseProgram(0);
+
+    // --- UI unit quad (aUV: [0..1]) ---
+    float quad[] = {0.f, 0.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f};
+    unsigned idx[] = {0, 1, 2, 0, 2, 3};
+
+    GLuint uiVAO = 0, uiVBO = 0, uiEBO = 0;
+    glGenVertexArrays(1, &uiVAO);
+    glGenBuffers(1, &uiVBO);
+    glGenBuffers(1, &uiEBO);
+
+    glBindVertexArray(uiVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, uiVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uiEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+    glBindVertexArray(0);
+
+    // --- Textured quad mesh ---
+    TexMesh gTexMesh;
+    gTexMesh.init();
+
+    // --- Uniform lokációk ---
+    GLint u_uPos = glGetUniformLocation(uiProgram, "uPos");
+    GLint u_uSize = glGetUniformLocation(uiProgram, "uSize");
+    GLint u_uScreen = glGetUniformLocation(uiProgram, "uScreen");
+    GLint u_uRadius = glGetUniformLocation(uiProgram, "uRadius");
+    GLint u_uBorder = glGetUniformLocation(uiProgram, "uBorder");
+    GLint u_uFeather = glGetUniformLocation(uiProgram, "uFeather");
+    GLint u_uFill = glGetUniformLocation(uiProgram, "uFillColor");
+    GLint u_uBorderCol = glGetUniformLocation(uiProgram, "uBorderColor");
+
+    GLint t_uScreen = glGetUniformLocation(texProgram, "uScreen");
+    GLint t_uHasTex = glGetUniformLocation(texProgram, "uHasTex");
+    GLint t_uIsSDF = glGetUniformLocation(texProgram, "uIsSDF");
+    GLint t_uTint = glGetUniformLocation(texProgram, "uTint");
+    GLint t_uUseClip = glGetUniformLocation(texProgram, "uUseClip");
+    GLint t_uClipPos = glGetUniformLocation(texProgram, "uClipPos");
+    GLint t_uClipSize = glGetUniformLocation(texProgram, "uClipSize");
+    GLint t_uClipRadius = glGetUniformLocation(texProgram, "uClipRadius");
+    GLint t_uClipFeather = glGetUniformLocation(texProgram, "uClipFeather");
+    GLint t_uFlipV = glGetUniformLocation(texProgram, "uFlipV");
+
+    // --- GL állapotok ---
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // --- Opcionális erőforrások betöltése ---
+    // Ha ezek a fájlok nem léteznek, a kód egyszerűen kihagyja a rajzolásukat
+    Texture icon = loadImageTexture("icon.png", true);
+    const char *msg = "Hello, UI!\nSkálázható szöveg.";
+    auto cps = codepointsFromUTF8(msg);
+    // FontAtlas font = loadFontAtlasUTF8("Inter.ttc", 48.0f);
+    FontAtlas font = loadFontAtlasByCodepoints("assets/fonts/Inter.ttc", 48.0f, cps,
+                                               /*atlasW*/ 1024, /*atlasH*/ 1024, /*over*/ 1, 1, /*pad*/ 1);
+    // --- Fő ciklus ---
+    while (!glfwWindowShouldClose(window))
+    {
+        glfwGetFramebufferSize(window, &fbW, &fbH);
+        glViewport(0, 0, fbW, fbH);
+
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // ===== 1) Háttér UI elemek (SDF kerek téglalap) =====
+        glUseProgram(uiProgram);
+        glUniform2f(u_uScreen, (float)fbW, (float)fbH);
+        glBindVertexArray(uiVAO);
+
+        // 1/a Kék kártya, fekete áttetsző borderrel
+        glUniform2f(u_uPos, 50.f, 40.f);
+        glUniform2f(u_uSize, 260.f, 90.f);
+        glUniform1f(u_uRadius, 14.f);
+        glUniform1f(u_uBorder, 2.0f);
+        glUniform1f(u_uFeather, 1.0f);
+        glUniform4f(u_uFill, 0.10f, 0.56f, 0.95f, 1.0f);
+        glUniform4f(u_uBorderCol, 0.0f, 0.0f, 0.0f, 0.35f);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // 1/b Árnyék + fehér kártya (két draw)
+        // Árnyék réteg
+        glUniform2f(u_uPos, 363.f, 43.f);
+        glUniform2f(u_uSize, 303.f, 123.f);
+        glUniform1f(u_uRadius, 18.f);
+        glUniform1f(u_uBorder, 0.0f);
+        glUniform1f(u_uFeather, 1.0f);
+        glUniform4f(u_uFill, 0.0f, 0.0f, 0.0f, 0.25f);
+        glUniform4f(u_uBorderCol, 0.0f, 0.0f, 0.0f, 0.0f);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // Fő kártya
+        glUniform2f(u_uPos, 360.f, 40.f);
+        glUniform2f(u_uSize, 300.f, 120.f);
+        glUniform1f(u_uRadius, 14.f);
+        glUniform1f(u_uBorder, 1.0f);
+        glUniform1f(u_uFeather, 1.0f);
+        glUniform4f(u_uFill, 0.95f, 0.96f, 0.98f, 1.0f);
+        glUniform4f(u_uBorderCol, 0.15f, 0.18f, 0.22f, 0.25f);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // 1/c Badge
+        glUniform2f(u_uPos, 50.f, 150.f);
+        glUniform2f(u_uSize, 186.f, 200.f);
+        glUniform1f(u_uRadius, 21.f);
+        glUniform1f(u_uBorder, 3.0f);
+        glUniform1f(u_uFeather, 0.0f);
+        glUniform4f(u_uFill, 0.20f, 0.80f, 0.50f, 1.0f);
+        glUniform4f(u_uBorderCol, 1.0f, 0.0f, 0.0f, 1.0f);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        glBindVertexArray(0);
+        glUseProgram(0);
+
+        // ===== 2) KÉP / IKON (ha van icon.png) =====
+        if (icon.id)
+        {
+            std::vector<float> verts;
+            float x = 380.f, y = 60.f, w = 64.f, h = 64.f;
+            pushQuad(verts, x, y, x + w, y + h, 0, 0, 1, 1);
+
+            glUseProgram(texProgram);
+            glUniform2f(t_uScreen, (float)fbW, (float)fbH);
+            glUniform1i(t_uHasTex, 1);
+            glUniform1i(t_uIsSDF, 0);
+            glUniform4f(t_uTint, 1, 1, 1, 1);
+            glUniform1i(t_uUseClip, 1);
+            glUniform2f(t_uClipPos, 360.f, 40.f);
+            glUniform2f(t_uClipSize, 260.f, 120.f);
+            glUniform1f(t_uClipRadius, 14.f);
+            glUniform1f(t_uClipFeather, 1.0f);
+            glUniform1i(t_uFlipV, 1);  // tükrözze
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, icon.id);
+
+            glBindVertexArray(gTexMesh.vao);
+            glBindBuffer(GL_ARRAY_BUFFER, gTexMesh.vbo);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, (GLsizeiptr)(verts.size() * sizeof(float)), verts.data());
+            glDrawArrays(GL_TRIANGLES, 0, (GLsizei)(verts.size() / 4));
+        }
+
+        // ===== 3) SZÖVEG (ha van TTF) =====
+        if (font.tex)
+        {
+            
+            std::vector<float> verts;
+            float startX = 450.f, startY = 70.f;
+            float sizePx = 24.f; // méretezhető
+            buildTextMeshUTF8(font, msg, startX, startY, sizePx, verts);
+
+            glUseProgram(texProgram);
+            glUniform2f(t_uScreen, (float)fbW, (float)fbH);
+            glUniform1i(t_uHasTex, 1);
+            glUniform1i(t_uIsSDF, 0); // bitmap atlasz
+            glUniform4f(t_uTint, 0.12f, 0.14f, 0.18f, 1.0f);
+            glUniform1i(t_uUseClip, 1);
+            glUniform2f(t_uClipPos, 360.f, 40.f);
+            glUniform2f(t_uClipSize, 280.f, 120.f);
+            glUniform1f(t_uClipRadius, 14.f);
+            glUniform1f(t_uClipFeather, 1.0f);
+            glUniform1i(t_uFlipV, 0);  // ne tükrözze
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, font.tex);
+
+            glBindVertexArray(gTexMesh.vao);
+            glBindBuffer(GL_ARRAY_BUFFER, gTexMesh.vbo);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, (GLsizeiptr)(verts.size() * sizeof(float)), verts.data());
+            glDrawArrays(GL_TRIANGLES, 0, (GLsizei)(verts.size() / 4));
+        }
+
+        // --- frame vége ---
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    // --- takarítás ---
+    glDeleteVertexArrays(1, &uiVAO);
+    glDeleteBuffers(1, &uiVBO);
+    glDeleteBuffers(1, &uiEBO);
+
+    glDeleteProgram(uiProgram);
+    glDeleteProgram(texProgram);
+
+    if (icon.id)
+        glDeleteTextures(1, &icon.id);
+    if (font.tex)
+        glDeleteTextures(1, &font.tex);
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return 0;
+}

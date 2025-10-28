@@ -6,7 +6,7 @@
 
 namespace PandoraEX
 {
-    Class(String) pextends std::string
+    Class(String,public std::string)
     {
     public:
 /**=======================================================================================================================*
@@ -37,6 +37,9 @@ namespace PandoraEX
 
         // String operator+(const unsigned char str);
         // String operator+(const unsigned short str);
+
+        bool operator==(const char *str) const;
+        bool operator==(const String &str) const;
 
 /**=======================================================================================================================*
  **                                           END OF REGION OPERATORS

@@ -12,72 +12,49 @@ namespace PandoraEX
     template <class T>
     Class(ValueWrapper)
     {
-        const T *original_ptr = nullptr;
-        std::shared_ptr<T> ptr;
+        std::shared_ptr<T> ptr_;
 
     public:
-        ValueWrapper() : ptr(std::make_shared<T>()){
-            // PDC::logTrace("ValueWrapper constructor(id): %d", id());
-        };
-        ValueWrapper(const T &value) : ptr(std::make_shared<T>(std::move(value))), original_ptr(std::addressof(value)) {
-            
-            // if constexpr (std::is_base_of_v<Object, T>)
-            // {
-            //     PDC::logTrace("<%s> ValueWrapper constructor(id): %d -> with value(id): %d", Utils::demangle(typeid(T).name()).c_str(), id(), ((Object)value).id());
-            // }
-            // else
-            // {
-            //     PDC::logTrace("<%s> ValueWrapper constructor(id): %d -> not object value", Utils::demangle(typeid(T).name()).c_str(), id());
-            // }
-            // // PDC::logTrace("ValueWrapper constructor(id): %d -> with value(id): %d", id(), ((Object)value).id());
-            // if constexpr (std::is_base_of_v<Object, T> ) if(((Object)value).id() != ptr->id())
-            // {
-            //     PDC::logFailure("original id: %d", ((Object)value).id());
+        using element_type = T;
 
-            //     PDC::logFailure("wrapped id: %d", ptr->id());
-            // }
-        }
-
-        ValueWrapper(const ValueWrapper<T> &other) : Object(other), ptr(other.ptr), original_ptr(other.original_ptr)
+        // 1) Default: üres (absztraktnál elengedhetetlen)
+        ValueWrapper()
         {
-            // if constexpr (std::is_base_of_v<Object, T>)
-            // {
-            //     PDC::logTrace("<%s> ValueWrapper copy constructor(id): %d -> with value(id): %d", Utils::demangle(typeid(T).name()).c_str(), id(), ptr->id());
-            // }
-            // else
-            // {
-            //     PDC::logTrace("<%s> ValueWrapper copy constructor(id): %d -> not object value", Utils::demangle(typeid(T).name()).c_str(), id());
-            // }
+            if constexpr (std::default_initializable<T> && !std::is_abstract_v<T>)
+            {
+                ptr_ = std::make_shared<T>(); // csak ha lehet default-olni és nem absztrakt
+            }
+            // különben nullptr marad
         }
 
-        bool operator==(const ValueWrapper<T> &other) const
+        // 2) Közvetlen shared_ptr átvétel
+        explicit ValueWrapper(std::shared_ptr<T> p) : ptr_(std::move(p)) {}
+
+        // 3) Leszármazottból építés (Button -> ValueWrapper<IElement>)
+        template <class U>
+            requires std::derived_from<std::decay_t<U>, T> // C++20 concept
+        ValueWrapper(U && u)
+            : ptr_(std::make_shared<std::decay_t<U>>(std::forward<U>(u)))
         {
-            if (original_ptr == other.original_ptr)
-                return true;
-            if constexpr (std::is_pointer_v<T>)
-            {
-                if (!ptr || !other.ptr)
-                {
-                    return *ptr == *other.ptr;
-                }
-                return false;
-            }
-            else if constexpr (std::is_same_v<T, PandoraEX::Object>)
-            {
-                return *ptr == *other.ptr || ptr->equals(*other.ptr) || ptr->id() == other.ptr->id();
-            }
-            return ptr == other.ptr;
-        }
+        } // make_shared: egy allokáció, osztott tulajdon
+        // (derived_from és perfect forwarding: l. cppreference) :contentReference[oaicite:1]{index=1}
 
-        const T &get() const { return *ptr; }
-
-        ~ValueWrapper()
+        // 4) In-place konstrukció megadott konkrét típussal és paraméterekkel
+        template <class U, class... Args>
+            requires std::derived_from<U, T>
+        explicit ValueWrapper(std::in_place_type_t<U>, Args && ...args)
+            : ptr_(std::make_shared<U>(std::forward<Args>(args)...))
         {
-            if (ptr)
-            {
-                ptr.reset();
-            }
-        }
+        } // make_shared részletek :contentReference[oaicite:2]{index=2}
+
+        // pointer-szerű API
+        T *operator->() const noexcept { return ptr_.get(); }
+        T &operator*() const noexcept { return *ptr_; }
+        explicit operator bool() const noexcept { return static_cast<bool>(ptr_); }
+
+        // kiegészítők
+        std::shared_ptr<T> get() const noexcept { return ptr_; }
+        void reset() noexcept { ptr_.reset(); }
     };
 }
 

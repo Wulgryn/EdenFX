@@ -1,20 +1,18 @@
-#ifndef PANDORAEX_EVENT_HPP
-#define PANDORAEX_EVENT_HPP
+#ifndef PANDORAEX_COMPATIBILITY_EVENT_HPP
+#define PANDORAEX_COMPATIBILITY_EVENT_HPP
 
 #include "PandoraEX/object.hpp"
-#include "list.hpp"
-#include "method.hpp"
+#include "PandoraEX/method.hpp"
 
-namespace PandoraEX
+namespace PandoraEX::Compatibility
 {
-
     /// @brief Event class for managing event callbacks.
     /// @tparam Args The types of the arguments that the event will pass to the callbacks.
     /// @details This class allows you to add, remove, and invoke methods that are registered to the event.
     template <typename... Args>
     class Event : public virtual PandoraEX::Object
     {
-        List<Method<void>> methods;
+        std::vector<Method<void>> methods;
 
     public:
         /// @brief Default constructor for Event.
@@ -26,14 +24,14 @@ namespace PandoraEX
         /// @param method The method to add.
         void operator+=(Method<void> method)
         {
-            methods.add(method);
+            methods.push_back(method);
         }
 
         /// @brief Removes a method from the event.
         /// @param method The method to remove.
         void operator-=(Method<void> method)
         {
-            methods.remove(method);
+            methods.erase(std::remove(methods.begin(), methods.end(), method), methods.end());
         }
 
         /// @brief Adds a method to the event.
@@ -41,7 +39,7 @@ namespace PandoraEX
         /// @details This is an alternative to the `+=` operator.
         void add(Method<void> method)
         {
-            methods.add(method);
+            methods.push_back(method);
         }
 
         /// @brief Removes a method from the event.
@@ -49,7 +47,7 @@ namespace PandoraEX
         /// @details This is an alternative to the `-=` operator.
         void remove(Method<void> method)
         {
-            methods.remove(method);
+            methods.erase(std::remove(methods.begin(), methods.end(), method), methods.end());
         }
 
         /// @brief Clears all methods registered to the event.
@@ -65,7 +63,7 @@ namespace PandoraEX
         void operator=(Method<void> method)
         {
             methods.clear();
-            methods.add(method);
+            methods.push_back(method);
         }
 
         /// @brief Invokes all methods registered to the event with the provided arguments.
@@ -185,4 +183,4 @@ namespace PandoraEX
     };
 }
 
-#endif // PANDORAEX_EVENT_HPP
+#endif // PANDORAEX_COMPATIBILITY_EVENT_HPP
