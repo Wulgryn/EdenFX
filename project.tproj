@@ -25,7 +25,7 @@
       <Value>never</Value>
       <Value>always</Value>
     </ClearOutputFolderBeforeBuild.Values>
-    <Run args="" cwd="${workspaceFolder}" externalConsole="true">
+    <Run args="" cwd="${workspaceFolder}" externalConsole="false">
       <externalConsole.Values DefaultValueIndex="0">
         <Value>false</Value>
         <Value>true</Value>

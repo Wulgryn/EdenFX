@@ -3,118 +3,118 @@
 
 #include <type_traits>
 #include <concepts>
+#include <utility>
 #include "Core/Object/Object.hpp"
+#include "Core/Object/DataRef.hpp"
 
 namespace Eden::Core::Object
 {
-    template <typename T>
-    concept HasClone = requires(const T *obj) {
-        { obj->clone() } -> std::convertible_to<T *>;
-    };
 
     template <typename TObject>
-    class ManagedObject
+    class ManagedObject : public virtual Object
     {
-        TObject *m_object = nullptr;
+    private:
+        DataRef<TObject> *m_DataRef = nullptr;
+
+    protected:
+        struct ForwardToDataRef {};
+
+        ManagedObject() : m_DataRef(new DataRef<TObject>()) {}
+
+        template <typename... Args>
+        explicit ManagedObject(ForwardToDataRef, Args &&...args)
+            : m_DataRef(new DataRef<TObject>(std::forward<Args>(args)...))
+        {
+        }
+
+        TObject *data()
+        {
+            return &m_DataRef->m_Data;
+        }
+
+        const TObject *data() const
+        {
+            return &m_DataRef->m_Data;
+        }
 
     public:
-        ManagedObject() : m_object(nullptr) {}
-
-        ManagedObject(TObject *object) : m_object(object)
+        ManagedObject(const ManagedObject &other) : m_DataRef(other.m_DataRef)
         {
-            static_assert(std::derived_from<TObject, Object>, "TObject must derive from Object");
-            if (m_object)
-            {
-                m_object->addRef();
-            }
+            addRef();
         }
 
-        ~ManagedObject()
-        {
-            if (m_object)
-            {
-                m_object->release();
-                m_object = nullptr;
-            }
-        }
-
-        ManagedObject(const ManagedObject &other)
-            : m_object(other.m_object)
-        {
-            if (m_object)
-            {
-                m_object->addRef();
-            }
-        }
-
-        ManagedObject &operator=(const ManagedObject &other)
+        ManagedObject& operator=(const ManagedObject& other)
         {
             if (this == &other)
             {
                 return *this;
             }
 
-            if (m_object != nullptr)
-            {
-                m_object->Release();
-            }
+            release();
 
-            m_object = other.m_object;
+            m_DataRef = other.m_DataRef;
 
-            if (m_object != nullptr)
-            {
-                m_object->AddRef();
-            }
+            addRef();
 
             return *this;
         }
 
-        ManagedObject<TObject> clone() const
+        ManagedObject(ManagedObject&& other) noexcept
+            : m_DataRef(other.m_DataRef)
         {
-            if (!m_object)
+            other.m_DataRef = nullptr;
+        }
+
+        ManagedObject& operator=(ManagedObject&& other) noexcept
+        {
+            if (this == &other)
             {
-                return ManagedObject();
+                return *this;
             }
 
-            if constexpr (HasClone<TObject>)
+            release();
+
+            m_DataRef = other.m_DataRef;
+            other.m_DataRef = nullptr;
+
+            return *this;
+        }
+
+        ~ManagedObject()
+        {
+            release();
+        }
+
+        long long getRefCount() const
+        {
+            if (m_DataRef == nullptr)
             {
-                return ManagedObject(m_object->clone());
+                return 0;
             }
-            else if constexpr (!std::is_abstract_v<TObject> && std::is_copy_constructible_v<TObject>)
+
+            return m_DataRef->m_RefCount.load();
+        }
+
+    private:
+        void addRef()
+        {
+            if(m_DataRef) m_DataRef->m_RefCount.fetch_add(1);
+        }
+
+        void release()
+        {
+            if(!m_DataRef) return;
+            if (m_DataRef->m_RefCount.fetch_sub(1) == 1)
             {
-                return ManagedObject(new TObject(*m_object));
+                delete m_DataRef;
             }
-            else
-            {
-                static_assert(HasClone<TObject>, "This type cannot be cloned. Add clone() or make it copy constructible.");
-            }
-        }
-
-        TObject *operator->()
-        {
-            return m_object;
-        }
-
-        const TObject *operator->() const
-        {
-            return m_object;
-        }
-
-        TObject &get()
-        {
-            return *m_object;
-        }
-
-        const TObject &get() const
-        {
-            return *m_object;
-        }
-
-        bool isValid() const
-        {
-            return m_object != nullptr;
+            m_DataRef = nullptr;
         }
     };
 }
+
+#define ManagedDataClass(className) namespace Managed { class className##Data
+
+#define ManagedObject Eden::Core::Object::ManagedObject
 
 #endif // CORE_OBJECT_MANAGEDOBJECT_HPP
