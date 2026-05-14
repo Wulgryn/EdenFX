@@ -1,13 +1,13 @@
 #ifndef CORE_OBJECT_DATAREF_HPP
 #define CORE_OBJECT_DATAREF_HPP
 
-#include "Core/Object/ManagedObject.hpp"
+#include "core/object/object.hpp"
 #include <atomic>
 
 namespace Eden::Core::Object
 {
     template <typename TDataClass>
-    class DataRef
+    class DataRef : public virtual Object
     {
     public:
         std::atomic<long long> m_RefCount = 0;

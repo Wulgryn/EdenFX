@@ -4,8 +4,8 @@
 #include <type_traits>
 #include <concepts>
 #include <utility>
-#include "Core/Object/Object.hpp"
-#include "Core/Object/DataRef.hpp"
+#include "core/object/object.hpp"
+#include "core/object/data_ref.hpp"
 
 namespace Eden::Core::Object
 {
@@ -115,6 +115,6 @@ namespace Eden::Core::Object
 
 #define ManagedDataClass(className) namespace Managed { class className##Data
 
-#define ManagedObject Eden::Core::Object::ManagedObject
+#define MANAGEDOBJECT Eden::Core::Object::ManagedObject
 
 #endif // CORE_OBJECT_MANAGEDOBJECT_HPP
