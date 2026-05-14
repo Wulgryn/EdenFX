@@ -1,3 +1,5 @@
+#define AUTO_USINGS
+
 #include "collections/list.hpp"
 #include "io/directory.hpp"
 #include "io/path.hpp"
@@ -8,11 +10,6 @@ using namespace std;
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char const* argv[])
 {
-    using Eden::Collections::List;
-    using Eden::IO::Directory;
-    using Eden::IO::Path;
-    using Eden::Text::String;
-
     List<int> numbers;
     numbers.add(10);
 
@@ -24,7 +21,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char const* argv[])
 
     Directory current = Directory::GetCurrentDirectory();
     cout << current.path().to_std_string() << "\n";
-    auto files = current.get_files(true, "*.cpp");
+    List<Path> files = current.get_files(true, "*.cpp");
 
     std::cout << files.count() << "\n";
 

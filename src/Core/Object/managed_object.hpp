@@ -113,6 +113,10 @@ namespace Eden::Core::Object
     };
 }
 
+#if defined(AUTO_USINGS)
+using namespace Eden::Core::Object;
+#endif
+
 #define ManagedDataClass(className) namespace Managed { class className##Data
 
 #define MANAGEDOBJECT Eden::Core::Object::ManagedObject

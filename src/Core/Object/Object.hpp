@@ -5,10 +5,14 @@ namespace Eden::Core::Object
 {
     class Object
     {
-    public:
+        public:
         virtual ~Object() = default;
     };
 }
+
+#if defined(AUTO_USINGS)
+using namespace Eden::Core::Object;
+#endif
 
 #define OBJECT Eden::Core::Object::Object 
 

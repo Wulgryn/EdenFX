@@ -215,4 +215,8 @@ namespace Eden::Collections
     };
 }
 
+#if defined(AUTO_USINGS)
+using namespace Eden::Collections;
+#endif
+
 #endif // EDEN_COLLECTIONS_LIST_HPP

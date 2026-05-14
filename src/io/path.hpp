@@ -207,4 +207,8 @@ namespace Eden::IO
     };
 }
 
+#if defined(AUTO_USINGS)
+using namespace Eden::IO;
+#endif
+
 #endif // EDEN_IO_PATH_HPP
