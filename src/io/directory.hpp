@@ -21,7 +21,7 @@ namespace Eden::IO
         };
     }
     
-    class Directory : public MANAGEDOBJECT<Managed::DirectoryData>
+    class Directory : public MANAGEDOBJECT<Directory, Managed::DirectoryData>
     {
         public:
         Directory();

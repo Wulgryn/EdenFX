@@ -21,7 +21,7 @@ namespace Eden::Collections
     }
 
     template <class T>
-    class List : public MANAGEDOBJECT<Managed::ListData<T>>
+    class List : public MANAGEDOBJECT<List<T>,Managed::ListData<T>>
     {
     public:
         using ValueType = T;

@@ -8,10 +8,22 @@
 #include <iostream>
 using namespace std;
 
+
 int main([[maybe_unused]] int argc, [[maybe_unused]] char const* argv[])
 {
     List<int> numbers;
     numbers.add(10);
+
+    
+
+
+    Directory a("data");
+    Directory b = a;
+    List<Directory> directories;
+    directories.add(a);
+
+
+    &directories;
 
     String name = "latest.txt";
     Path path = Path("data") / "logs" / name;

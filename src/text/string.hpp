@@ -20,7 +20,7 @@ namespace Eden::Text
         };
     }
     
-    class String : public MANAGEDOBJECT<Managed::StringData>
+    class String : public MANAGEDOBJECT<String, Managed::StringData>
     {
         public:
         using NativeString = std::string;

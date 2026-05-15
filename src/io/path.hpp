@@ -22,7 +22,7 @@ namespace Eden::IO
         };
     }
 
-    class Path : public MANAGEDOBJECT<Managed::PathData>
+    class Path : public MANAGEDOBJECT<Path, Managed::PathData>
     {
     public:
         using NativePath = fs::path;

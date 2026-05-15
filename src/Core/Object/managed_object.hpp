@@ -6,33 +6,40 @@
 #include <utility>
 #include "core/object/object.hpp"
 #include "core/object/data_ref.hpp"
+// #include "core/array_wrapper.hpp"
+
+namespace Eden::Core
+{
+    template <class T>
+    class ArrayWrapper;
+}
 
 namespace Eden::Core::Object
 {
 
-    template <typename TObject>
+    template <class TObjectClass, class TDataClass>
     class ManagedObject : public virtual Object
     {
     private:
-        DataRef<TObject> *m_DataRef = nullptr;
+        DataRef<TDataClass> *m_DataRef = nullptr;
 
     protected:
         struct ForwardToDataRef {};
 
-        ManagedObject() : m_DataRef(new DataRef<TObject>()) {}
+        ManagedObject() : m_DataRef(new DataRef<TDataClass>()) {}
 
         template <typename... Args>
         explicit ManagedObject(ForwardToDataRef, Args &&...args)
-            : m_DataRef(new DataRef<TObject>(std::forward<Args>(args)...))
+            : m_DataRef(new DataRef<TDataClass>(std::forward<Args>(args)...))
         {
         }
 
-        TObject *data()
+        TDataClass *data()
         {
             return &m_DataRef->m_Data;
         }
 
-        const TObject *data() const
+        const TDataClass *data() const
         {
             return &m_DataRef->m_Data;
         }
@@ -95,6 +102,11 @@ namespace Eden::Core::Object
             return m_DataRef->m_RefCount.load();
         }
 
+        static ArrayWrapper<TObjectClass> NewArray(int size)
+        {
+            return ArrayWrapper<TObjectClass>(size);
+        }
+
     private:
         void addRef()
         {
@@ -116,8 +128,6 @@ namespace Eden::Core::Object
 #if defined(AUTO_USINGS)
 using namespace Eden::Core::Object;
 #endif
-
-#define ManagedDataClass(className) namespace Managed { class className##Data
 
 #define MANAGEDOBJECT Eden::Core::Object::ManagedObject
 
