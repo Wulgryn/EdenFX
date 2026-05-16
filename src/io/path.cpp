@@ -545,8 +545,8 @@ namespace Eden::IO
             result.add(static_cast<char>(i));
         }
 #else
-        result.Add('/');
-        result.Add('\0');
+        result.add('/');
+        result.add('\0');
 #endif
 
         return result;
@@ -569,7 +569,7 @@ namespace Eden::IO
             result.add(static_cast<char>(i));
         }
 #else
-        result.Add('\0');
+        result.add('\0');
 #endif
 
         return result;

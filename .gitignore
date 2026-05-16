@@ -6,3 +6,4 @@ externals/libs/extracted/**
 logs/**
 cmake-build/**
 tmp/**
+src.zip

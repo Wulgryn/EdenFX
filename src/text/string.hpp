@@ -62,7 +62,6 @@ namespace Eden::Text
         bool operator<=(const String& other) const;
         bool operator>=(const String& other) const;
         
-        bool Contains(const String& value) const;
         bool contains(const String& value) const;
         
         bool starts_with(const String& value) const;

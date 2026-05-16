@@ -127,14 +127,9 @@ namespace Eden::Text
         return this->data()->m_Value >= other.std();
     }
 
-    bool String::Contains(const String &value) const
-    {
-        return this->data()->m_Value.find(value.std()) != std::string::npos;
-    }
-
     bool String::contains(const String &value) const
     {
-        return Contains(value);
+        return this->data()->m_Value.find(value.std()) != std::string::npos;
     }
 
     bool String::starts_with(const String &value) const
